@@ -4,9 +4,13 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -53,6 +57,10 @@ public final class MainFrameView {
 	 * Container of the view.
 	 */
 	private Container mContainer;
+	/**
+	 * List of all input elements.
+	 */
+	private final List<JComponent> mInputElements;
 	/**
 	 * Log area of the view.
 	 */
@@ -102,7 +110,28 @@ public final class MainFrameView {
 	 */
 	public MainFrameView(final Container thatContainer) {
 		mContainer = thatContainer;
+		mInputElements = new LinkedList<>();
 		initialize();
+	}
+
+	/**
+	 * Adds an action listener to the start action.
+	 * 
+	 * @param listener
+	 *            Listener to add
+	 */
+	public void addListenerToStartAction(final ActionListener listener) {
+		mStartBtn.addActionListener(listener);
+	}
+
+	/**
+	 * Adds an action listener to the stop action.
+	 * 
+	 * @param listener
+	 *            Listener to add
+	 */
+	public void addListenerToStopAction(final ActionListener listener) {
+		mStopBtn.addActionListener(listener);
 	}
 
 	/**
@@ -127,6 +156,20 @@ public final class MainFrameView {
 		mLogArea.append(line + "\n");
 	}
 
+	public void setAllInputEnabled(final boolean enabled) {
+		for (JComponent element : mInputElements) {
+			element.setEnabled(enabled);
+		}
+	}
+
+	public void setStartButtonEnabled(final boolean enabled) {
+		mStartBtn.setEnabled(enabled);
+	}
+
+	public void setStopButtonEnabled(final boolean enabled) {
+		mStopBtn.setEnabled(enabled);
+	}
+
 	/**
 	 * Initialize the contents of the view.
 	 */
@@ -136,6 +179,8 @@ public final class MainFrameView {
 		initializeButtons();
 		initializeInputFields();
 		initializeTextAreas();
+
+		setStopButtonEnabled(false);
 	}
 
 	/**
@@ -159,18 +204,21 @@ public final class MainFrameView {
 		mThreadUrlField.setHorizontalAlignment(SwingConstants.LEFT);
 		mThreadUrlField.setBounds(0, 20, mMainPanel.getWidth(), 20);
 		mMainPanel.add(mThreadUrlField);
+		mInputElements.add(mThreadUrlField);
 		mThreadUrlField.setColumns(DEFAULT_FIELD_COLUMNS);
 
 		mUsernameField = new JTextField();
 		mUsernameField.setHorizontalAlignment(SwingConstants.LEFT);
 		mUsernameField.setBounds((mMainPanel.getWidth() / 2) + 90, 70, 123, 20);
 		mMainPanel.add(mUsernameField);
+		mInputElements.add(mUsernameField);
 		mUsernameField.setColumns(DEFAULT_FIELD_COLUMNS);
 
 		mPasswordField = new JPasswordField();
 		mPasswordField.setHorizontalAlignment(SwingConstants.LEFT);
 		mPasswordField.setBounds((mMainPanel.getWidth() / 2) + 90, 100, 123, 20);
 		mMainPanel.add(mPasswordField);
+		mInputElements.add(mPasswordField);
 		mPasswordField.setColumns(DEFAULT_FIELD_COLUMNS);
 
 		mBrowserChoiceBox = new JComboBox<>();
@@ -182,6 +230,7 @@ public final class MainFrameView {
 		}
 		mBrowserChoiceBox.setBounds((mMainPanel.getWidth() / 2) + 90, 130, 123, 20);
 		mMainPanel.add(mBrowserChoiceBox);
+		mInputElements.add(mBrowserChoiceBox);
 	}
 
 	/**
@@ -248,10 +297,12 @@ public final class MainFrameView {
 		mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		mTextToPostPane.setViewportView(mTextToPostArea);
+		mInputElements.add(mTextToPostArea);
 
 		mLogArea = new JTextArea();
 		mLogArea.setEditable(false);
 		mLogArea.setLineWrap(true);
 		mLogPane.setViewportView(mLogArea);
+		mInputElements.add(mLogArea);
 	}
 }

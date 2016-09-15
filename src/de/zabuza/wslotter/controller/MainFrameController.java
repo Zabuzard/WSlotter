@@ -1,5 +1,7 @@
 package de.zabuza.wslotter.controller;
 
+import de.zabuza.wslotter.controller.listener.StartActionListener;
+import de.zabuza.wslotter.controller.listener.StopActionListener;
 import de.zabuza.wslotter.controller.logging.Logger;
 import de.zabuza.wslotter.view.MainFrameView;
 
@@ -33,6 +35,20 @@ public final class MainFrameController {
 	}
 
 	/**
+	 * Executes a start task.
+	 */
+	public void executeStartTask() {
+
+	}
+
+	/**
+	 * Executes a stop task.
+	 */
+	public void executeStopTask() {
+
+	}
+
+	/**
 	 * Initializes the controller.
 	 */
 	public void initialize() {
@@ -50,8 +66,7 @@ public final class MainFrameController {
 	 * Links the listener to the view.
 	 */
 	private void linkListener() {
-		// mView.addListenerToChooseButton(new ChooseListener(mView, this,
-		// mLogger));
-		// mView.addListenerToValueButtons(new ValueListener(mView));
+		mView.addListenerToStartAction(new StartActionListener(mView, this));
+		mView.addListenerToStopAction(new StopActionListener(mView, this));
 	}
 }
