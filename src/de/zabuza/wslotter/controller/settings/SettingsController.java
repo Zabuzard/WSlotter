@@ -16,7 +16,7 @@ import de.zabuza.wslotter.controller.listener.SaveActionListener;
 import de.zabuza.wslotter.controller.listener.SettingsActionListener;
 import de.zabuza.wslotter.controller.logging.Logger;
 import de.zabuza.wslotter.model.EBrowser;
-import de.zabuza.wslotter.model.IBrowserDriverProvider;
+import de.zabuza.wslotter.model.IBrowserSettingsProvider;
 import de.zabuza.wslotter.view.MainFrameView;
 import de.zabuza.wslotter.view.SettingsDialog;
 
@@ -26,11 +26,15 @@ import de.zabuza.wslotter.view.SettingsDialog;
  * @author Zabuza
  *
  */
-public final class SettingsController implements ISettingsProvider, IBrowserDriverProvider {
+public final class SettingsController implements ISettingsProvider, IBrowserSettingsProvider {
 	/**
 	 * Text to save for a value if a key is unknown.
 	 */
 	public static final String UNKNOWN_KEY_VALUE = "";
+	/**
+	 * Key identifier for binary settings.
+	 */
+	private static final String KEY_IDENTIFIER_BINARY = "binary";
 	/**
 	 * Key identifier for driver settings.
 	 */
@@ -110,6 +114,14 @@ public final class SettingsController implements ISettingsProvider, IBrowserDriv
 			}
 		}
 
+		// Binary settings
+		JTextField field = mSettingsDialog.getBrowserBinaryField();
+		String value = field.getText();
+		if (!value.equals(UNKNOWN_KEY_VALUE)) {
+			String key = KEY_IDENTIFIER_BINARY;
+			setSetting(key, value);
+		}
+
 		// Save settings
 		mSettings.saveSettings(this);
 
@@ -146,6 +158,21 @@ public final class SettingsController implements ISettingsProvider, IBrowserDriv
 	@Override
 	public Map<String, String> getAllSettings() {
 		return mSettingsStore;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.zabuza.wslotter.model.IBrowserSettingsProvider#getBrowserBinary()
+	 */
+	@Override
+	public String getBrowserBinary() {
+		String binary = getSetting(KEY_IDENTIFIER_BINARY);
+		if (binary.equals(UNKNOWN_KEY_VALUE)) {
+			return null;
+		} else {
+			return binary;
+		}
 	}
 
 	/*
@@ -206,12 +233,22 @@ public final class SettingsController implements ISettingsProvider, IBrowserDriv
 	 * Links the listener of the dialog to it.
 	 */
 	private void linkDialogListener() {
+		// Window listener
 		mSettingsDialog.addWindowListener(new ClosingCallbackWindowListener(this));
+
+		// Browser field listener
 		for (EBrowser browser : EBrowser.values()) {
 			ActionListener listener = new FileChooseSetActionListener(mSettingsDialog,
 					mSettingsDialog.getBrowserDriverField(browser));
 			mSettingsDialog.addListenerToBrowserDriverSelectionAction(browser, listener);
 		}
+
+		// Binary listener
+		ActionListener listener = new FileChooseSetActionListener(mSettingsDialog,
+				mSettingsDialog.getBrowserBinaryField());
+		mSettingsDialog.addListenerToBrowserBinarySelectionAction(listener);
+
+		// Save and cancel listener
 		mSettingsDialog.addListenerToSaveAction(new SaveActionListener(this));
 		mSettingsDialog.addListenerToCancelAction(new CloseAtCancelActionListener(mSettingsDialog));
 	}
@@ -231,10 +268,14 @@ public final class SettingsController implements ISettingsProvider, IBrowserDriv
 			String[] keySplit = entry.getKey().split(KEY_INFO_SEPARATOR);
 			String keyIdentifier = keySplit[0];
 
-			// Driver settings
 			if (keyIdentifier.equals(KEY_IDENTIFIER_DRIVER)) {
+				// Driver settings
 				EBrowser browser = EBrowser.valueOf(keySplit[1]);
 				JTextField field = mSettingsDialog.getBrowserDriverField(browser);
+				field.setText(entry.getValue());
+			} else if (keyIdentifier.equals(KEY_IDENTIFIER_BINARY)) {
+				// Binary settings
+				JTextField field = mSettingsDialog.getBrowserBinaryField();
 				field.setText(entry.getValue());
 			} else {
 				throw new IllegalStateException(

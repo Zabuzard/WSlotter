@@ -17,6 +17,7 @@ import de.zabuza.wslotter.controller.MainFrameController;
 import de.zabuza.wslotter.controller.logging.Logger;
 import de.zabuza.wslotter.model.AbortTaskException;
 import de.zabuza.wslotter.model.EBrowser;
+import de.zabuza.wslotter.model.IBrowserSettingsProvider;
 
 /**
  * The WSlotter routine which logs in to the main page, finds a thread and posts
@@ -32,9 +33,9 @@ public final class RoutineTask extends Thread implements ITask {
 	 */
 	private final EBrowser mBrowser;
 	/**
-	 * The capabilities to use for the created browsers.
+	 * The browser driver provider.
 	 */
-	private Capabilities mCapabilities;
+	private IBrowserSettingsProvider mBrowserSettingsProvider;
 	/**
 	 * The controller of the main frame.
 	 */
@@ -84,10 +85,13 @@ public final class RoutineTask extends Thread implements ITask {
 	 * @param logger
 	 *            The logger to use
 	 * @param controller
-	 *            The controller of the main frame.
+	 *            The controller of the main frame
+	 * @param browserSettingsProvider
+	 *            The browser settings provider
 	 */
 	public RoutineTask(final String threadUrl, final String textToPost, final String username, final String password,
-			final EBrowser browser, final Logger logger, final MainFrameController controller) {
+			final EBrowser browser, final Logger logger, final MainFrameController controller,
+			final IBrowserSettingsProvider browserSettingsProvider) {
 		mThreadUrl = threadUrl;
 		mTextToPost = textToPost;
 		mUsername = username;
@@ -95,8 +99,8 @@ public final class RoutineTask extends Thread implements ITask {
 		mBrowser = browser;
 		mLogger = logger;
 		mController = controller;
+		mBrowserSettingsProvider = browserSettingsProvider;
 
-		mCapabilities = null;
 		mDriver = null;
 		mCurrentSubTask = null;
 	}
@@ -122,16 +126,6 @@ public final class RoutineTask extends Thread implements ITask {
 	@Override
 	public void run() {
 		try {
-			// TODO Remove Debug
-			DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-			System.setProperty("webdriver.gecko.driver", "C:\\Windows\\System32\\geckodriver.exe");
-			System.setProperty("webdriver.firefox.marionette", "C:\\Windows\\System32\\geckodriver.exe");
-			capabilities.setCapability(FirefoxDriver.MARIONETTE, true);
-			File pathToBinary = new File("D:\\Program Files\\Firefox\\firefox.exe");
-			FirefoxBinary binary = new FirefoxBinary(pathToBinary);
-			capabilities.setCapability(FirefoxDriver.BINARY, binary);
-			setCapabilities(capabilities);
-
 			// Create browser
 			mLogger.logInfo("Starting web driver...", Logger.TOP_LEVEL);
 			mDriver = createWebDriver(mBrowser);
@@ -166,13 +160,100 @@ public final class RoutineTask extends Thread implements ITask {
 	}
 
 	/**
-	 * Sets the capabilities to use for the created browser.
+	 * Creates the capabilities to use with a browser for the given arguments.
 	 * 
-	 * @param capabilities
-	 *            Capabilities to use
+	 * @param browser
+	 *            Browser to create capabilities for
+	 * @param driverPath
+	 *            Path to the driver or <tt>null</tt> if not set
+	 * @param binaryPath
+	 *            Path to the binary or <tt>null</tt> if not set
+	 * @return The capabilities to use or <tt>null</tt> if there are no
 	 */
-	public void setCapabilities(final Capabilities capabilities) {
-		mCapabilities = capabilities;
+	private Capabilities createCapabilities(final EBrowser browser, final String driverPath, final String binaryPath) {
+		DesiredCapabilities capabilities = null;
+
+		if (browser == EBrowser.FIREFOX) {
+			capabilities = DesiredCapabilities.firefox();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.gecko.driver", driverPath);
+				System.setProperty("webdriver.firefox.marionette", driverPath);
+				capabilities.setCapability(FirefoxDriver.MARIONETTE, true);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				File pathToBinary = new File(binaryPath);
+				FirefoxBinary binary = new FirefoxBinary(pathToBinary);
+				capabilities.setCapability(FirefoxDriver.BINARY, binary);
+			}
+		} else if (browser == EBrowser.CHROME) {
+			capabilities = DesiredCapabilities.chrome();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.chrome.driver", driverPath);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				capabilities.setCapability("chrome.binary", binaryPath);
+			}
+		} else if (browser == EBrowser.SAFARI) {
+			capabilities = DesiredCapabilities.internetExplorer();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.safari.driver", driverPath);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				capabilities.setCapability("safari.binary", binaryPath);
+			}
+		} else if (browser == EBrowser.INTERNET_EXPLORER) {
+			capabilities = DesiredCapabilities.internetExplorer();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.ie.driver", driverPath);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				capabilities.setCapability("ie.binary", binaryPath);
+			}
+		} else if (browser == EBrowser.OPERA) {
+			capabilities = DesiredCapabilities.internetExplorer();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.opera.driver", driverPath);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				capabilities.setCapability("opera.binary", binaryPath);
+			}
+		} else if (browser == EBrowser.MS_EDGE) {
+			capabilities = DesiredCapabilities.internetExplorer();
+
+			// Set the driver
+			if (driverPath != null) {
+				System.setProperty("webdriver.edge.driver", driverPath);
+			}
+
+			// Set the binary
+			if (binaryPath != null) {
+				capabilities.setCapability("edge.binary", binaryPath);
+			}
+		} else {
+			throw new IllegalArgumentException("The given browser is not supported: " + browser);
+		}
+
+		return capabilities;
 	}
 
 	/**
@@ -185,41 +266,44 @@ public final class RoutineTask extends Thread implements ITask {
 	 * @return Webdriver that uses the given browser
 	 */
 	private WebDriver createWebDriver(final EBrowser browser) {
-		// TODO Use settings to get properties and set them
+		String driverPath = mBrowserSettingsProvider.getDriverForBrowser(browser);
+		String binaryPath = mBrowserSettingsProvider.getBrowserBinary();
+		Capabilities capabilities = createCapabilities(browser, driverPath, binaryPath);
+
 		WebDriver driver;
 		if (browser == EBrowser.FIREFOX) {
-			if (mCapabilities != null) {
-				driver = new FirefoxDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new FirefoxDriver(capabilities);
 			} else {
 				driver = new FirefoxDriver();
 			}
 		} else if (browser == EBrowser.CHROME) {
-			if (mCapabilities != null) {
-				driver = new ChromeDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new ChromeDriver(capabilities);
 			} else {
 				driver = new ChromeDriver();
 			}
 		} else if (browser == EBrowser.SAFARI) {
-			if (mCapabilities != null) {
-				driver = new SafariDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new SafariDriver(capabilities);
 			} else {
 				driver = new SafariDriver();
 			}
 		} else if (browser == EBrowser.INTERNET_EXPLORER) {
-			if (mCapabilities != null) {
-				driver = new InternetExplorerDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new InternetExplorerDriver(capabilities);
 			} else {
 				driver = new InternetExplorerDriver();
 			}
 		} else if (browser == EBrowser.OPERA) {
-			if (mCapabilities != null) {
-				driver = new OperaDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new OperaDriver(capabilities);
 			} else {
 				driver = new OperaDriver();
 			}
 		} else if (browser == EBrowser.MS_EDGE) {
-			if (mCapabilities != null) {
-				driver = new EdgeDriver(mCapabilities);
+			if (capabilities != null) {
+				driver = new EdgeDriver(capabilities);
 			} else {
 				driver = new EdgeDriver();
 			}

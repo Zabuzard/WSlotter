@@ -27,6 +27,10 @@ import de.zabuza.wslotter.model.EBrowser;
  */
 public final class SettingsDialog extends JDialog {
 	/**
+	 * The title of the binary panel.
+	 */
+	private final static String BINARY_TITLE = "Binary";
+	/**
 	 * The default amount of columns for fields of the view.
 	 */
 	private static final int DEFAULT_FIELD_COLUMNS = 10;
@@ -43,21 +47,21 @@ public final class SettingsDialog extends JDialog {
 	 */
 	private final static String DIALOG_TITLE = "Settings";
 	/**
-	 * The title of the button for driver selection.
-	 */
-	private static final String DRIVER_SELECT_TITLE = "Search";
-	/**
 	 * The title of the driver panel.
 	 */
 	private final static String DRIVER_TITLE = "Driver";
 	/**
 	 * The height of the dialog.
 	 */
-	private final static int HEIGHT = 300;
+	private final static int HEIGHT = 380;
 	/**
 	 * The origin offset of the dialog to the owner, in both directions.
 	 */
 	private final static int OWNER_OFFSET = 50;
+	/**
+	 * The title of the buttons for selection.
+	 */
+	private static final String SELECT_TITLE = "Search";
 	/**
 	 * Serial version UID.
 	 */
@@ -66,6 +70,18 @@ public final class SettingsDialog extends JDialog {
 	 * The width of the dialog.
 	 */
 	private final static int WIDTH = 400;
+	/**
+	 * The binary panel of the dialog.
+	 */
+	private JPanel mBinaryPanel;
+	/**
+	 * Select binary button of the dialog for browsers.
+	 */
+	private JButton mBrowserBinaryBtn;
+	/**
+	 * The browser binary input field.
+	 */
+	private JTextField mBrowserBinaryField;
 	/**
 	 * The button of the dialog for canceling.
 	 */
@@ -153,6 +169,16 @@ public final class SettingsDialog extends JDialog {
 	}
 
 	/**
+	 * Adds an action listener to the given browser binary selection action.
+	 * 
+	 * @param listener
+	 *            Listener to add
+	 */
+	public void addListenerToBrowserBinarySelectionAction(final ActionListener listener) {
+		mBrowserBinaryBtn.addActionListener(listener);
+	}
+
+	/**
 	 * Adds an action listener to the given browser driver selection action.
 	 * 
 	 * @param browser
@@ -197,6 +223,15 @@ public final class SettingsDialog extends JDialog {
 	 */
 	public void addListenerToSaveAction(final ActionListener listener) {
 		mSaveBtn.addActionListener(listener);
+	}
+
+	/**
+	 * Gets the browser binary field.
+	 * 
+	 * @return The browser binary field
+	 */
+	public JTextField getBrowserBinaryField() {
+		return mBrowserBinaryField;
 	}
 
 	/**
@@ -255,43 +290,48 @@ public final class SettingsDialog extends JDialog {
 	 * Initialize the buttons.
 	 */
 	private void initializeButtons() {
-		mChromeBtn = new JButton(DRIVER_SELECT_TITLE);
+		mChromeBtn = new JButton(SELECT_TITLE);
 		mChromeBtn.setBounds(290, 30, 80, 20);
 		mDriverPanel.add(mChromeBtn);
 		mElements.add(mChromeBtn);
 
-		mFirefoxBtn = new JButton(DRIVER_SELECT_TITLE);
+		mFirefoxBtn = new JButton(SELECT_TITLE);
 		mFirefoxBtn.setBounds(290, 60, 80, 20);
 		mDriverPanel.add(mFirefoxBtn);
 		mElements.add(mFirefoxBtn);
 
-		mInternetExplorerBtn = new JButton(DRIVER_SELECT_TITLE);
+		mInternetExplorerBtn = new JButton(SELECT_TITLE);
 		mInternetExplorerBtn.setBounds(290, 90, 80, 20);
 		mDriverPanel.add(mInternetExplorerBtn);
 		mElements.add(mInternetExplorerBtn);
 
-		mMsEdgeBtn = new JButton(DRIVER_SELECT_TITLE);
+		mMsEdgeBtn = new JButton(SELECT_TITLE);
 		mMsEdgeBtn.setBounds(290, 120, 80, 20);
 		mDriverPanel.add(mMsEdgeBtn);
 		mElements.add(mMsEdgeBtn);
 
-		mOperaBtn = new JButton(DRIVER_SELECT_TITLE);
+		mOperaBtn = new JButton(SELECT_TITLE);
 		mOperaBtn.setBounds(290, 150, 80, 20);
 		mDriverPanel.add(mOperaBtn);
 		mElements.add(mOperaBtn);
 
-		mSafariBtn = new JButton(DRIVER_SELECT_TITLE);
+		mSafariBtn = new JButton(SELECT_TITLE);
 		mSafariBtn.setBounds(290, 180, 80, 20);
 		mDriverPanel.add(mSafariBtn);
 		mElements.add(mSafariBtn);
 
+		mBrowserBinaryBtn = new JButton(SELECT_TITLE);
+		mBrowserBinaryBtn.setBounds(290, 30, 80, 20);
+		mBinaryPanel.add(mBrowserBinaryBtn);
+		mElements.add(mBrowserBinaryBtn);
+
 		mSaveBtn = new JButton("Save");
-		mSaveBtn.setBounds((WIDTH / 2) - 100, 240, 80, 20);
+		mSaveBtn.setBounds((WIDTH / 2) - 100, 310, 80, 20);
 		mTrailerPanel.add(mSaveBtn);
 		mElements.add(mSaveBtn);
 
 		mCancelBtn = new JButton("Cancel");
-		mCancelBtn.setBounds((WIDTH / 2) + 20, 240, 80, 20);
+		mCancelBtn.setBounds((WIDTH / 2) + 20, 310, 80, 20);
 		mTrailerPanel.add(mCancelBtn);
 		mElements.add(mCancelBtn);
 	}
@@ -341,6 +381,13 @@ public final class SettingsDialog extends JDialog {
 		mDriverPanel.add(mSafariDriverField);
 		mElements.add(mSafariDriverField);
 		mSafariDriverField.setColumns(DEFAULT_FIELD_COLUMNS);
+
+		mBrowserBinaryField = new JTextField();
+		mBrowserBinaryField.setHorizontalAlignment(SwingConstants.LEFT);
+		mBrowserBinaryField.setBounds(80, 30, 200, 20);
+		mBinaryPanel.add(mBrowserBinaryField);
+		mElements.add(mBrowserBinaryField);
+		mBrowserBinaryField.setColumns(DEFAULT_FIELD_COLUMNS);
 	}
 
 	/**
@@ -382,6 +429,12 @@ public final class SettingsDialog extends JDialog {
 		mSafariDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mSafariDriverLbl.setBounds(10, 180, 60, 14);
 		mDriverPanel.add(mSafariDriverLbl);
+
+		JLabel mBrowserBinaryLbl = new JLabel("Browser:");
+		mBrowserBinaryLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		mBrowserBinaryLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
+		mBrowserBinaryLbl.setBounds(10, 30, 60, 14);
+		mBinaryPanel.add(mBrowserBinaryLbl);
 	}
 
 	/**
@@ -390,13 +443,20 @@ public final class SettingsDialog extends JDialog {
 	private void initializePanels() {
 		mDriverPanel = new JPanel();
 		mDriverPanel.setBounds(10, 10, WIDTH - 25, 220);
-		TitledBorder titledBorder = BorderFactory.createTitledBorder(DRIVER_TITLE);
-		mDriverPanel.setBorder(titledBorder);
+		TitledBorder titledBorderDriver = BorderFactory.createTitledBorder(DRIVER_TITLE);
+		mDriverPanel.setBorder(titledBorderDriver);
 		mContainer.add(mDriverPanel);
 		mDriverPanel.setLayout(null);
 
+		mBinaryPanel = new JPanel();
+		mBinaryPanel.setBounds(10, 230, WIDTH - 25, 70);
+		TitledBorder titledBorderBinary = BorderFactory.createTitledBorder(BINARY_TITLE);
+		mBinaryPanel.setBorder(titledBorderBinary);
+		mContainer.add(mBinaryPanel);
+		mBinaryPanel.setLayout(null);
+
 		mTrailerPanel = new JPanel();
-		mTrailerPanel.setBounds(10, 230, WIDTH - 25, 80);
+		mTrailerPanel.setBounds(10, 300, WIDTH - 25, 80);
 		mContainer.add(mTrailerPanel);
 		mTrailerPanel.setLayout(null);
 	}

@@ -1,12 +1,19 @@
 package de.zabuza.wslotter.model;
 
 /**
- * Interface for objects that provide driver for browsers.
+ * Interface for objects that provide settings for browsers.
  * 
  * @author Zabuza
  *
  */
-public interface IBrowserDriverProvider {
+public interface IBrowserSettingsProvider {
+	/**
+	 * Gets the binary for the browser to use.
+	 * 
+	 * @return The binary for the browser to use or <tt>null</tt> if not set
+	 */
+	public String getBrowserBinary();
+
 	/**
 	 * Gets the driver for a given browser if set.
 	 * 

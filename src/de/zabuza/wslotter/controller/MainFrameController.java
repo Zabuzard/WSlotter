@@ -31,18 +31,19 @@ public final class MainFrameController {
 	 */
 	private final Logger mLogger;
 	/**
-	 * The view of the main frame.
-	 */
-	private final MainFrameView mView;
-	/**
 	 * The controller for the settings.
 	 */
 	private final SettingsController mSettingsController;
+	/**
+	 * The view of the main frame.
+	 */
+	private final MainFrameView mView;
 
 	/**
 	 * Creates a new controller of the main frame by connecting it to the view.
 	 * 
-	 * @param owner The owning frame of this controller
+	 * @param owner
+	 *            The owning frame of this controller
 	 * @param view
 	 *            view of the main frame
 	 * @param logger
@@ -93,7 +94,7 @@ public final class MainFrameController {
 		mView.setSettingsButtonEnabled(false);
 
 		mCurrentRoutine = new RoutineTask(mView.getThreadUrl(), mView.getTextToPost(), mView.getUsername(),
-				mView.getPassword(), mView.getBrowser(), mLogger, this);
+				mView.getPassword(), mView.getBrowser(), mLogger, this, mSettingsController);
 		mCurrentRoutine.start();
 	}
 
