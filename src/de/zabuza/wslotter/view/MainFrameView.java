@@ -39,7 +39,7 @@ public final class MainFrameView {
 	/**
 	 * Height of the view.
 	 */
-	public static final int HEIGHT = 370;
+	public static final int HEIGHT = 385;
 	/**
 	 * Width of the view.
 	 */
@@ -89,6 +89,10 @@ public final class MainFrameView {
 	 */
 	private JTextField mPasswordField;
 	/**
+	 * Settings button of the view.
+	 */
+	private JButton mSettingsBtn;
+	/**
 	 * Start button of the view.
 	 */
 	private JButton mStartBtn;
@@ -109,6 +113,10 @@ public final class MainFrameView {
 	 */
 	private JTextField mThreadUrlField;
 	/**
+	 * The trailer panel of the view.
+	 */
+	private JPanel mTrailerPanel;
+	/**
 	 * Username field of the view.
 	 */
 	private JTextField mUsernameField;
@@ -124,6 +132,16 @@ public final class MainFrameView {
 		mContainer = frame.getContentPane();
 		mInputElements = new LinkedList<>();
 		initialize();
+	}
+
+	/**
+	 * Adds an action listener to the settings action.
+	 * 
+	 * @param listener
+	 *            Listener to add
+	 */
+	public void addListenerToSettingsAction(final ActionListener listener) {
+		mSettingsBtn.addActionListener(listener);
 	}
 
 	/**
@@ -221,16 +239,44 @@ public final class MainFrameView {
 		appendToLog(line + "\n", Color.RED);
 	}
 
+	/**
+	 * Enables or disables all input fields.
+	 * 
+	 * @param enabled
+	 *            Whether the fields should be enabled or disabled
+	 */
 	public void setAllInputEnabled(final boolean enabled) {
 		for (JComponent element : mInputElements) {
 			element.setEnabled(enabled);
 		}
 	}
 
+	/**
+	 * Enables or disables the settings button.
+	 * 
+	 * @param enabled
+	 *            Whether the button should be enabled or disabled
+	 */
+	public void setSettingsButtonEnabled(final boolean enabled) {
+		mSettingsBtn.setEnabled(enabled);
+	}
+
+	/**
+	 * Enables or disables the start button.
+	 * 
+	 * @param enabled
+	 *            Whether the button should be enabled or disabled
+	 */
 	public void setStartButtonEnabled(final boolean enabled) {
 		mStartBtn.setEnabled(enabled);
 	}
 
+	/**
+	 * Enables or disables the stop button.
+	 * 
+	 * @param enabled
+	 *            Whether the button should be enabled or disabled
+	 */
 	public void setStopButtonEnabled(final boolean enabled) {
 		mStopBtn.setEnabled(enabled);
 	}
@@ -276,12 +322,16 @@ public final class MainFrameView {
 	 */
 	private void initializeButtons() {
 		mStartBtn = new JButton("Start");
-		mStartBtn.setBounds(180, 170, 109, 23);
+		mStartBtn.setBounds(180, 170, 100, 23);
 		mMainPanel.add(mStartBtn);
 
 		mStopBtn = new JButton("Stop");
-		mStopBtn.setBounds(300, 170, 109, 23);
+		mStopBtn.setBounds(300, 170, 100, 23);
 		mMainPanel.add(mStopBtn);
+
+		mSettingsBtn = new LinkButton("Settings");
+		mSettingsBtn.setBounds(350, 0, 90, 23);
+		mTrailerPanel.add(mSettingsBtn);
 	}
 
 	/**
@@ -374,6 +424,11 @@ public final class MainFrameView {
 		mLogPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		mLogPane.setBounds(10, 230, WIDTH - 25, 100);
 		mContainer.add(mLogPane);
+
+		mTrailerPanel = new JPanel();
+		mTrailerPanel.setBounds(10, 330, WIDTH - 25, 50);
+		mContainer.add(mTrailerPanel);
+		mTrailerPanel.setLayout(null);
 	}
 
 	/**

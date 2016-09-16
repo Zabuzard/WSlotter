@@ -1,9 +1,12 @@
 package de.zabuza.wslotter.controller;
 
+import javax.swing.JFrame;
+
 import de.zabuza.wslotter.controller.listener.StartActionListener;
 import de.zabuza.wslotter.controller.listener.StopActionListener;
 import de.zabuza.wslotter.controller.listener.StopAtWindowCloseListener;
 import de.zabuza.wslotter.controller.logging.Logger;
+import de.zabuza.wslotter.controller.settings.SettingsController;
 import de.zabuza.wslotter.model.tasks.RoutineTask;
 import de.zabuza.wslotter.view.MainFrameView;
 
@@ -31,18 +34,24 @@ public final class MainFrameController {
 	 * The view of the main frame.
 	 */
 	private final MainFrameView mView;
+	/**
+	 * The controller for the settings.
+	 */
+	private final SettingsController mSettingsController;
 
 	/**
 	 * Creates a new controller of the main frame by connecting it to the view.
 	 * 
+	 * @param owner The owning frame of this controller
 	 * @param view
 	 *            view of the main frame
 	 * @param logger
 	 *            logger of the main frame
 	 */
-	public MainFrameController(final MainFrameView view, final Logger logger) {
+	public MainFrameController(final JFrame owner, final MainFrameView view, final Logger logger) {
 		mView = view;
 		mLogger = logger;
+		mSettingsController = new SettingsController(owner, view, logger);
 		mCurrentRoutine = null;
 	}
 
@@ -51,6 +60,7 @@ public final class MainFrameController {
 	 */
 	public void initialize() {
 		linkListener();
+		mSettingsController.initialize();
 	}
 
 	/**
@@ -62,6 +72,7 @@ public final class MainFrameController {
 		mView.setAllInputEnabled(true);
 		mView.setStartButtonEnabled(true);
 		mView.setStopButtonEnabled(false);
+		mView.setSettingsButtonEnabled(true);
 	}
 
 	/**
@@ -79,6 +90,7 @@ public final class MainFrameController {
 		mView.setAllInputEnabled(false);
 		mView.setStartButtonEnabled(false);
 		mView.setStopButtonEnabled(true);
+		mView.setSettingsButtonEnabled(false);
 
 		mCurrentRoutine = new RoutineTask(mView.getThreadUrl(), mView.getTextToPost(), mView.getUsername(),
 				mView.getPassword(), mView.getBrowser(), mLogger, this);
@@ -104,8 +116,8 @@ public final class MainFrameController {
 	 * Links the listener to the view.
 	 */
 	private void linkListener() {
-		mView.addListenerToStartAction(new StartActionListener(mView, this));
-		mView.addListenerToStopAction(new StopActionListener(mView, this));
+		mView.addListenerToStartAction(new StartActionListener(this));
+		mView.addListenerToStopAction(new StopActionListener(this));
 		mView.addWindowListener(new StopAtWindowCloseListener(this));
 	}
 }

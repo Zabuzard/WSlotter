@@ -3,29 +3,27 @@ package de.zabuza.wslotter.controller.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import de.zabuza.wslotter.controller.MainFrameController;
+import de.zabuza.wslotter.controller.settings.SettingsController;
 
 /**
- * Listener of the start action.
+ * Listener of the settings action.
  * 
  * @author Zabuza
  *
  */
-public class StartActionListener implements ActionListener {
+public final class SettingsActionListener implements ActionListener {
 	/**
-	 * The controller of the main frame.
+	 * The controller of the settings.
 	 */
-	private final MainFrameController mController;
+	private final SettingsController mController;
 
 	/**
 	 * Creates a new listener of the start action.
 	 * 
-	 * @param view
-	 *            View of the main frame
 	 * @param controller
-	 *            Controller of the main frame
+	 *            Controller of the settings
 	 */
-	public StartActionListener(final MainFrameController controller) {
+	public SettingsActionListener(final SettingsController controller) {
 		mController = controller;
 	}
 
@@ -37,6 +35,6 @@ public class StartActionListener implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		mController.startRoutine();
+		mController.executeSettingsAction();
 	}
 }

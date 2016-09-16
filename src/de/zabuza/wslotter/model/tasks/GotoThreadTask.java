@@ -1,8 +1,10 @@
 package de.zabuza.wslotter.model.tasks;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
 import de.zabuza.wslotter.controller.logging.Logger;
+import de.zabuza.wslotter.model.AbortTaskException;
 import de.zabuza.wslotter.model.selector.Patterns;
 import de.zabuza.wslotter.model.wait.TitleContainsWait;
 
@@ -77,7 +79,12 @@ public class GotoThreadTask implements ITask {
 	public void start() {
 		mLogger.logInfo("Opening thread...", Logger.TOP_LEVEL);
 		mDriver.get(mThreadUrl);
-		new TitleContainsWait(mDriver, Patterns.SITE_TITLE).waitUntilCondition();
+		try {
+			new TitleContainsWait(mDriver, Patterns.SITE_TITLE).waitUntilCondition();
+		} catch (TimeoutException e) {
+			mLogger.logError("The site is no 'Gruppe W' thread.", Logger.FIRST_LEVEL);
+			throw new AbortTaskException();
+		}
 		mLogger.logInfo("Thread opened.", Logger.FIRST_LEVEL);
 	}
 

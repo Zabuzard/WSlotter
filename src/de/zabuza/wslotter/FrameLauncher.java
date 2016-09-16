@@ -44,7 +44,7 @@ public final class FrameLauncher {
 
 					window = new MainFrameView(frame);
 					logger = new Logger(window);
-					MainFrameController controller = new MainFrameController(window, logger);
+					MainFrameController controller = new MainFrameController(frame, window, logger);
 					controller.initialize();
 					controller.start();
 				} catch (Exception e) {
