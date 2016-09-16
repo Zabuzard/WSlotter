@@ -43,10 +43,6 @@ public class StopActionListener implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		mView.setAllInputEnabled(true);
-		mView.setStartButtonEnabled(true);
-		mView.setStopButtonEnabled(false);
-
-		mController.executeStopTask();
+		mController.stopRoutine();
 	}
 }

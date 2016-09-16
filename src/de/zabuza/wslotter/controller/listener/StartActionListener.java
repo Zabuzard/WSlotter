@@ -43,10 +43,6 @@ public class StartActionListener implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		mView.setAllInputEnabled(false);
-		mView.setStartButtonEnabled(false);
-		mView.setStopButtonEnabled(true);
-
-		mController.executeStartTask();
+		mController.startRoutine();
 	}
 }

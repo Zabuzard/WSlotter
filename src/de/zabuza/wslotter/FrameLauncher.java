@@ -42,7 +42,7 @@ public final class FrameLauncher {
 					frame.setLocation((screenSize.width - frame.getWidth()) / 2,
 							(screenSize.height - frame.getHeight()) / 2);
 
-					window = new MainFrameView(frame.getContentPane());
+					window = new MainFrameView(frame);
 					logger = new Logger(window);
 					MainFrameController controller = new MainFrameController(window, logger);
 					controller.initialize();

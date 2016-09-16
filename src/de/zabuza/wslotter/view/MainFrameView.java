@@ -5,20 +5,27 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import de.zabuza.wslotter.model.EBrowser;
 
@@ -56,7 +63,11 @@ public final class MainFrameView {
 	/**
 	 * Container of the view.
 	 */
-	private Container mContainer;
+	private final Container mContainer;
+	/**
+	 * The frame of the view.
+	 */
+	private final JFrame mFrame;
 	/**
 	 * List of all input elements.
 	 */
@@ -64,7 +75,7 @@ public final class MainFrameView {
 	/**
 	 * Log area of the view.
 	 */
-	private JTextArea mLogArea;
+	private JTextPane mLogArea;
 	/**
 	 * Log pane of the view.
 	 */
@@ -103,13 +114,14 @@ public final class MainFrameView {
 	private JTextField mUsernameField;
 
 	/**
-	 * Create the view.
+	 * Creates the view.
 	 * 
-	 * @param thatContainer
-	 *            container of the view
+	 * @param frame
+	 *            Frame of the view
 	 */
-	public MainFrameView(final Container thatContainer) {
-		mContainer = thatContainer;
+	public MainFrameView(final JFrame frame) {
+		mFrame = frame;
+		mContainer = frame.getContentPane();
 		mInputElements = new LinkedList<>();
 		initialize();
 	}
@@ -135,14 +147,68 @@ public final class MainFrameView {
 	}
 
 	/**
+	 * Adds a window listener to the view window.
+	 * 
+	 * @param listener
+	 *            Listener to add
+	 */
+	public void addWindowListener(final WindowListener listener) {
+		mFrame.addWindowListener(listener);
+	}
+
+	/**
+	 * Gets the selected input browser.
+	 * 
+	 * @return The selected input browser
+	 */
+	public EBrowser getBrowser() {
+		return (EBrowser) mBrowserChoiceBox.getSelectedItem();
+	}
+
+	/**
+	 * Gets the input password.
+	 * 
+	 * @return The input password
+	 */
+	public String getPassword() {
+		return mPasswordField.getText();
+	}
+
+	/**
+	 * Gets the input text to post.
+	 * 
+	 * @return The input text to post
+	 */
+	public String getTextToPost() {
+		return mTextToPostArea.getText();
+	}
+
+	/**
+	 * Gets the input thread url.
+	 * 
+	 * @return The input thread url
+	 */
+	public String getThreadUrl() {
+		return mThreadUrlField.getText();
+	}
+
+	/**
+	 * Gets the input username.
+	 * 
+	 * @return The input username
+	 */
+	public String getUsername() {
+		return mUsernameField.getText();
+	}
+
+	/**
 	 * Appends a line to the log area.
 	 * 
 	 * @param line
 	 *            line to append
 	 */
 	public void log(final String line) {
-		mLogArea.setForeground(Color.BLACK);
-		mLogArea.append(line + "\n");
+		appendToLog(line + "\n", Color.BLACK);
 	}
 
 	/**
@@ -152,8 +218,7 @@ public final class MainFrameView {
 	 *            line to append
 	 */
 	public void logError(final String line) {
-		mLogArea.setForeground(Color.RED);
-		mLogArea.append(line + "\n");
+		appendToLog(line + "\n", Color.RED);
 	}
 
 	public void setAllInputEnabled(final boolean enabled) {
@@ -168,6 +233,29 @@ public final class MainFrameView {
 
 	public void setStopButtonEnabled(final boolean enabled) {
 		mStopBtn.setEnabled(enabled);
+	}
+
+	/**
+	 * Appends a message to the logging area.
+	 * 
+	 * @param message
+	 *            Message to add
+	 * @param color
+	 *            Color of the message
+	 */
+	private void appendToLog(final String message, final Color color) {
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
+
+		aset = sc.addAttribute(aset, StyleConstants.FontFamily, DEFAULT_FONT);
+		aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+		int len = mLogArea.getDocument().getLength();
+		mLogArea.setCaretPosition(len);
+		mLogArea.setCharacterAttributes(aset, false);
+		mLogArea.setEditable(true);
+		mLogArea.replaceSelection(message);
+		mLogArea.setEditable(false);
 	}
 
 	/**
@@ -299,10 +387,8 @@ public final class MainFrameView {
 		mTextToPostPane.setViewportView(mTextToPostArea);
 		mInputElements.add(mTextToPostArea);
 
-		mLogArea = new JTextArea();
+		mLogArea = new JTextPane();
 		mLogArea.setEditable(false);
-		mLogArea.setLineWrap(true);
 		mLogPane.setViewportView(mLogArea);
-		mInputElements.add(mLogArea);
 	}
 }
