@@ -16,6 +16,7 @@ import de.zabuza.wslotter.controller.listener.SaveActionListener;
 import de.zabuza.wslotter.controller.listener.SettingsActionListener;
 import de.zabuza.wslotter.controller.logging.Logger;
 import de.zabuza.wslotter.model.EBrowser;
+import de.zabuza.wslotter.model.IBrowserDriverProvider;
 import de.zabuza.wslotter.view.MainFrameView;
 import de.zabuza.wslotter.view.SettingsDialog;
 
@@ -25,7 +26,7 @@ import de.zabuza.wslotter.view.SettingsDialog;
  * @author Zabuza
  *
  */
-public final class SettingsController implements ISettingsProvider {
+public final class SettingsController implements ISettingsProvider, IBrowserDriverProvider {
 	/**
 	 * Text to save for a value if a key is unknown.
 	 */
@@ -108,7 +109,7 @@ public final class SettingsController implements ISettingsProvider {
 				setSetting(key, value);
 			}
 		}
-		
+
 		// Save settings
 		mSettings.saveSettings(this);
 
@@ -145,6 +146,24 @@ public final class SettingsController implements ISettingsProvider {
 	@Override
 	public Map<String, String> getAllSettings() {
 		return mSettingsStore;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.zabuza.wslotter.model.IBrowserDriverProvider#getDriverForBrowser(de.
+	 * zabuza.wslotter.model.EBrowser)
+	 */
+	@Override
+	public String getDriverForBrowser(final EBrowser browser) {
+		String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
+		String driver = getSetting(key);
+		if (driver.equals(UNKNOWN_KEY_VALUE)) {
+			return null;
+		} else {
+			return driver;
+		}
 	}
 
 	/*
