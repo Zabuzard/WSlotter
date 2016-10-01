@@ -9,7 +9,7 @@ import de.zabuza.wslotter.controller.settings.SettingsController;
  * Listener of the save action. Activates a callback which saves the settings
  * and closes the settings dialog.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SaveActionListener implements ActionListener {

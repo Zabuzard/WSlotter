@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 /**
  * Condition that outputs the value of a given cookie.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class CookieCondition implements ExpectedCondition<Cookie> {

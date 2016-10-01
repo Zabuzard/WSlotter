@@ -3,7 +3,7 @@ package de.zabuza.wslotter.model.selector;
 /**
  * Utility class that provides regex patterns.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class Patterns {

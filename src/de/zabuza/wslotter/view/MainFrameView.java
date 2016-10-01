@@ -32,7 +32,7 @@ import de.zabuza.wslotter.model.EBrowser;
 /**
  * View of the main frame.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class MainFrameView {

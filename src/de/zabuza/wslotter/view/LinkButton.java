@@ -7,7 +7,7 @@ import javax.swing.JButton;
 /**
  * Button which looks like a clickable hyperlink text.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class LinkButton extends JButton {

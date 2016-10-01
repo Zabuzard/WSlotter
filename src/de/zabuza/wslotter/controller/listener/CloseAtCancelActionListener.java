@@ -9,7 +9,7 @@ import de.zabuza.wslotter.view.SettingsDialog;
 /**
  * Listener of the cancel action. Closes the dialog at activation.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class CloseAtCancelActionListener implements ActionListener {

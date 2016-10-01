@@ -17,7 +17,7 @@ import de.zabuza.wslotter.model.wait.LoginFormWait;
  * Ensures the user is logged in to the 'Gruppe W' site by either logging in or
  * returning if already logged in.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class LoginTask implements ITask {

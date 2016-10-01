@@ -23,7 +23,7 @@ import de.zabuza.wslotter.model.IBrowserSettingsProvider;
  * The WSlotter routine which logs in to the main page, finds a thread and posts
  * a given text.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class RoutineTask extends Thread implements ITask {

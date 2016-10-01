@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  * Class for waiting until the sites title contains a given needle. Start
  * waiting using the {@link #waitUntilCondition()} method.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class TitleContainsWait extends AConditionalWait<Boolean> {

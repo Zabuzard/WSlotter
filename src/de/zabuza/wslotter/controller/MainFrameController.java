@@ -13,7 +13,7 @@ import de.zabuza.wslotter.view.MainFrameView;
 /**
  * The controller of the main frame.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  * 
  */
 public final class MainFrameController {

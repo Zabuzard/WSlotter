@@ -23,7 +23,7 @@ import de.zabuza.wslotter.view.SettingsDialog;
 /**
  * The controller of the settings.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SettingsController implements ISettingsProvider, IBrowserSettingsProvider {

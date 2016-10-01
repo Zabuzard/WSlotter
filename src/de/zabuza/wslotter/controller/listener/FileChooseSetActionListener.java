@@ -12,7 +12,7 @@ import de.zabuza.wslotter.view.SettingsDialog;
  * Listener of the file choose and set action. Opens a file choose dialog and
  * sets the resulting path to a given text field.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class FileChooseSetActionListener implements ActionListener {

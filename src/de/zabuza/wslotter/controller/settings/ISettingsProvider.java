@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Interface for objects that provide values for settings.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public interface ISettingsProvider {

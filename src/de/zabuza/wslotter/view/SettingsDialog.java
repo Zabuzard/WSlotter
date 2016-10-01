@@ -22,7 +22,7 @@ import de.zabuza.wslotter.model.EBrowser;
 /**
  * Dialog window for changing the settings of the tool.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SettingsDialog extends JDialog {

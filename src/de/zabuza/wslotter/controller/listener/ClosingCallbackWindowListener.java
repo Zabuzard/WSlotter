@@ -8,7 +8,7 @@ import de.zabuza.wslotter.controller.settings.SettingsController;
 /**
  * Activates a callback for window closing which frees the parent window.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class ClosingCallbackWindowListener implements WindowListener {

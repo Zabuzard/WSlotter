@@ -3,7 +3,7 @@ package de.zabuza.wslotter.model;
 /**
  * Interface for objects that provide settings for browsers.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public interface IBrowserSettingsProvider {

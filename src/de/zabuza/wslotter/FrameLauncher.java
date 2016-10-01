@@ -13,7 +13,7 @@ import de.zabuza.wslotter.view.MainFrameView;
 /**
  * Starts the tool in a frame.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  * 
  */
 public final class FrameLauncher {

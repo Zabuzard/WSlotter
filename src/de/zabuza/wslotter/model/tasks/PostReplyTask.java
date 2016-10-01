@@ -11,7 +11,7 @@ import de.zabuza.wslotter.model.selector.CSSSelectors;
 /**
  * Waits for the post-reply text field at a thread and posts a given message.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class PostReplyTask implements ITask {

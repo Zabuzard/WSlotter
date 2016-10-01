@@ -3,7 +3,7 @@ package de.zabuza.wslotter.model;
 /**
  * Browser supported by the tool.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public enum EBrowser {

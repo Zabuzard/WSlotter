@@ -11,7 +11,7 @@ import de.zabuza.wslotter.model.wait.TitleContainsWait;
 /**
  * A task which opens a given thread in a given web driver.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class GotoThreadTask implements ITask {

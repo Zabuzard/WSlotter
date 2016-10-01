@@ -8,7 +8,7 @@ import de.zabuza.wslotter.controller.settings.SettingsController;
 /**
  * Listener of the settings action.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SettingsActionListener implements ActionListener {

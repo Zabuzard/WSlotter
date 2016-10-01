@@ -4,7 +4,7 @@ package de.zabuza.wslotter.model;
  * Exception which is thrown whenever a task should be aborted because it
  * encountered an exception. This can be used to catch known errors.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class AbortTaskException extends RuntimeException {

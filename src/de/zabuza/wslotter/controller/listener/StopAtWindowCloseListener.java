@@ -8,7 +8,7 @@ import de.zabuza.wslotter.controller.MainFrameController;
 /**
  * Stops the current task if window is closed.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class StopAtWindowCloseListener implements WindowListener {

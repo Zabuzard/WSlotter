@@ -8,7 +8,7 @@ import de.zabuza.wslotter.controller.MainFrameController;
 /**
  * Listener of the start action.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class StartActionListener implements ActionListener {

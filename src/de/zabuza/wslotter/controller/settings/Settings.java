@@ -13,7 +13,7 @@ import de.zabuza.wslotter.controller.logging.Logger;
 /**
  * Class for the tool settings.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  * 
  */
 public final class Settings {

@@ -3,7 +3,7 @@ package de.zabuza.wslotter.model.tasks;
 /**
  * Interface for tasks. A Task can be started and interrupted.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public interface ITask {

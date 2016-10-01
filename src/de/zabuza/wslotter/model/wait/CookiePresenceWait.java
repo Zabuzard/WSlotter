@@ -10,7 +10,7 @@ import de.zabuza.wslotter.model.wait.conditions.CookieCondition;
  * Class for waiting until a given cookie is present. Start waiting using the
  * {@link #waitUntilCondition()} method.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
 public class CookiePresenceWait extends AConditionalWait<Cookie> {
