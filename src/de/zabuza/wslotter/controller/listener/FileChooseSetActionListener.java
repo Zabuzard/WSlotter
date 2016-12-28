@@ -19,7 +19,7 @@ public final class FileChooseSetActionListener implements ActionListener {
 	/**
 	 * The title of the file chooser dialog.
 	 */
-	private final static String DIALOG_TITLE = "Select a Driver";
+	private final static String DIALOG_TITLE = "Select a file";
 	/**
 	 * The file chooser to use.
 	 */

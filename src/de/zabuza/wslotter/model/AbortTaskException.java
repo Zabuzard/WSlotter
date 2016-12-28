@@ -7,7 +7,7 @@ package de.zabuza.wslotter.model;
  * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  *
  */
-public class AbortTaskException extends RuntimeException {
+public final class AbortTaskException extends RuntimeException {
 
 	/**
 	 * Serial version UID.
