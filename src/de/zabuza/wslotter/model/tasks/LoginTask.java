@@ -62,11 +62,11 @@ public class LoginTask implements ITask {
 	 *            The logger to use
 	 */
 	public LoginTask(final WebDriver driver, final String username, final String password, final Logger logger) {
-		mDriver = driver;
-		mUsername = username;
-		mPassword = password;
-		mLogger = logger;
-		mInterrupted = false;
+		this.mDriver = driver;
+		this.mUsername = username;
+		this.mPassword = password;
+		this.mLogger = logger;
+		this.mInterrupted = false;
 	}
 
 	/*
@@ -76,7 +76,7 @@ public class LoginTask implements ITask {
 	 */
 	@Override
 	public void interrupt() {
-		mInterrupted = true;
+		this.mInterrupted = true;
 	}
 
 	/*
@@ -86,7 +86,7 @@ public class LoginTask implements ITask {
 	 */
 	@Override
 	public boolean isInterrupted() {
-		return mInterrupted;
+		return this.mInterrupted;
 	}
 
 	/*
@@ -99,41 +99,41 @@ public class LoginTask implements ITask {
 		// Check if already logged in
 		Cookie sessionCookie = null;
 		try {
-			mLogger.logInfo("Checking if already logged in...", Logger.TOP_LEVEL);
-			sessionCookie = new CookiePresenceWait(mDriver, Names.COOKIE_SESSION, ALREADY_LOGGED_IN_WAIT)
+			this.mLogger.logInfo("Checking if already logged in...", Logger.TOP_LEVEL);
+			sessionCookie = new CookiePresenceWait(this.mDriver, Names.COOKIE_SESSION, ALREADY_LOGGED_IN_WAIT)
 					.waitUntilCondition();
 		} catch (TimeoutException e) {
-
+			// Just ignore the exception and continue
 		}
 		if (sessionCookie == null) {
-			mLogger.logInfo("Not logged in.", Logger.FIRST_LEVEL);
-			mLogger.logInfo("Logging in...", Logger.TOP_LEVEL);
+			this.mLogger.logInfo("Not logged in.", Logger.FIRST_LEVEL);
+			this.mLogger.logInfo("Logging in...", Logger.TOP_LEVEL);
 			// Login
-			WebElement loginSubmit = new LoginFormWait(mDriver).waitUntilCondition();
-			WebElement loginName = mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_NAME));
-			WebElement loginPassword = mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_PASSWORD));
+			WebElement loginSubmit = new LoginFormWait(this.mDriver).waitUntilCondition();
+			WebElement loginName = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_NAME));
+			WebElement loginPassword = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_PASSWORD));
 
 			// Type in user credentials
-			loginName.sendKeys(mUsername);
-			loginPassword.sendKeys(mPassword);
+			loginName.sendKeys(this.mUsername);
+			loginPassword.sendKeys(this.mPassword);
 
 			// Submit form
 			loginSubmit.click();
 
 			// Check if login succeeded
 			try {
-				sessionCookie = new CookiePresenceWait(mDriver, Names.COOKIE_SESSION).waitUntilCondition();
+				sessionCookie = new CookiePresenceWait(this.mDriver, Names.COOKIE_SESSION).waitUntilCondition();
 			} catch (TimeoutException e) {
-
+				// Just ignore the exception and continue
 			}
 			if (sessionCookie == null) {
-				mLogger.logError("User credentials not accepted!", Logger.FIRST_LEVEL);
+				this.mLogger.logError("User credentials not accepted!", Logger.FIRST_LEVEL);
 				throw new AbortTaskException();
 			}
 		}
 
 		// At this point the user is logged in
-		mLogger.logInfo("Logged in.", Logger.FIRST_LEVEL);
+		this.mLogger.logInfo("Logged in.", Logger.FIRST_LEVEL);
 	}
 
 }

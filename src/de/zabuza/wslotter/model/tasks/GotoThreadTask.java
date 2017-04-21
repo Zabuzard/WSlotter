@@ -44,10 +44,10 @@ public class GotoThreadTask implements ITask {
 	 *            The logger to use
 	 */
 	public GotoThreadTask(final WebDriver driver, final String threadUrl, final Logger logger) {
-		mDriver = driver;
-		mThreadUrl = threadUrl;
-		mLogger = logger;
-		mInterrupted = false;
+		this.mDriver = driver;
+		this.mThreadUrl = threadUrl;
+		this.mLogger = logger;
+		this.mInterrupted = false;
 	}
 
 	/*
@@ -57,7 +57,7 @@ public class GotoThreadTask implements ITask {
 	 */
 	@Override
 	public void interrupt() {
-		mInterrupted = true;
+		this.mInterrupted = true;
 	}
 
 	/*
@@ -67,7 +67,7 @@ public class GotoThreadTask implements ITask {
 	 */
 	@Override
 	public boolean isInterrupted() {
-		return mInterrupted;
+		return this.mInterrupted;
 	}
 
 	/*
@@ -77,15 +77,15 @@ public class GotoThreadTask implements ITask {
 	 */
 	@Override
 	public void start() {
-		mLogger.logInfo("Opening thread...", Logger.TOP_LEVEL);
-		mDriver.get(mThreadUrl);
+		this.mLogger.logInfo("Opening thread...", Logger.TOP_LEVEL);
+		this.mDriver.get(this.mThreadUrl);
 		try {
-			new TitleContainsWait(mDriver, Patterns.SITE_TITLE).waitUntilCondition();
+			new TitleContainsWait(this.mDriver, Patterns.SITE_TITLE).waitUntilCondition();
 		} catch (TimeoutException e) {
-			mLogger.logError("The site is no 'Gruppe W' thread.", Logger.FIRST_LEVEL);
+			this.mLogger.logError("The site is no 'Gruppe W' thread.", Logger.FIRST_LEVEL);
 			throw new AbortTaskException();
 		}
-		mLogger.logInfo("Thread opened.", Logger.FIRST_LEVEL);
+		this.mLogger.logInfo("Thread opened.", Logger.FIRST_LEVEL);
 	}
 
 }

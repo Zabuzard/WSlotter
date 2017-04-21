@@ -43,10 +43,10 @@ public final class FileChooseSetActionListener implements ActionListener {
 	 *            The text field to set the file path to
 	 */
 	public FileChooseSetActionListener(final SettingsDialog parent, final JTextField textField) {
-		mTextField = textField;
-		mParent = parent;
-		mFileChooser = new JFileChooser();
-		mFileChooser.setDialogTitle(DIALOG_TITLE);
+		this.mTextField = textField;
+		this.mParent = parent;
+		this.mFileChooser = new JFileChooser();
+		this.mFileChooser.setDialogTitle(DIALOG_TITLE);
 	}
 
 	/*
@@ -60,9 +60,9 @@ public final class FileChooseSetActionListener implements ActionListener {
 		String filePath = null;
 
 		// Open file chooser dialog
-		int option = mFileChooser.showOpenDialog(mParent);
+		int option = this.mFileChooser.showOpenDialog(this.mParent);
 		if (option == JFileChooser.APPROVE_OPTION) {
-			filePath = mFileChooser.getSelectedFile().getAbsolutePath();
+			filePath = this.mFileChooser.getSelectedFile().getAbsolutePath();
 		} else if (option == JFileChooser.CANCEL_OPTION) {
 			// Do nothing, just let filePath stay null
 		} else {
@@ -71,7 +71,7 @@ public final class FileChooseSetActionListener implements ActionListener {
 
 		// Put the path to the file in the text field
 		if (filePath != null) {
-			mTextField.setText(filePath);
+			this.mTextField.setText(filePath);
 		}
 	}
 }

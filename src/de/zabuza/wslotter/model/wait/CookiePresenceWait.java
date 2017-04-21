@@ -1,6 +1,7 @@
 package de.zabuza.wslotter.model.wait;
 
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
@@ -30,7 +31,7 @@ public class CookiePresenceWait extends AConditionalWait<Cookie> {
 	 */
 	public CookiePresenceWait(final WebDriver driver, final String name) {
 		super(driver);
-		mCondition = new CookieCondition(name);
+		this.mCondition = new CookieCondition(name);
 	}
 
 	/**
@@ -43,11 +44,11 @@ public class CookiePresenceWait extends AConditionalWait<Cookie> {
 	 *            Name of the cookie to wait for
 	 * @param timeOutInSeconds
 	 *            Timeout in seconds to wait for the condition to resolve to
-	 *            <tt>true</tt> until a {@link #TimeoutException} is thrown.
+	 *            <tt>true</tt> until a {@link TimeoutException} is thrown.
 	 */
 	public CookiePresenceWait(final WebDriver driver, final String name, final long timeOutInSeconds) {
 		super(driver, timeOutInSeconds);
-		mCondition = new CookieCondition(name);
+		this.mCondition = new CookieCondition(name);
 	}
 
 	/*
@@ -57,6 +58,6 @@ public class CookiePresenceWait extends AConditionalWait<Cookie> {
 	 */
 	@Override
 	protected ExpectedCondition<Cookie> getCondition() {
-		return mCondition;
+		return this.mCondition;
 	}
 }

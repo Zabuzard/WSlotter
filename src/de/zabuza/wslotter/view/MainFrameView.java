@@ -128,9 +128,9 @@ public final class MainFrameView {
 	 *            Frame of the view
 	 */
 	public MainFrameView(final JFrame frame) {
-		mFrame = frame;
-		mContainer = frame.getContentPane();
-		mInputElements = new LinkedList<>();
+		this.mFrame = frame;
+		this.mContainer = frame.getContentPane();
+		this.mInputElements = new LinkedList<>();
 		initialize();
 	}
 
@@ -141,7 +141,7 @@ public final class MainFrameView {
 	 *            Listener to add
 	 */
 	public void addListenerToSettingsAction(final ActionListener listener) {
-		mSettingsBtn.addActionListener(listener);
+		this.mSettingsBtn.addActionListener(listener);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public final class MainFrameView {
 	 *            Listener to add
 	 */
 	public void addListenerToStartAction(final ActionListener listener) {
-		mStartBtn.addActionListener(listener);
+		this.mStartBtn.addActionListener(listener);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public final class MainFrameView {
 	 *            Listener to add
 	 */
 	public void addListenerToStopAction(final ActionListener listener) {
-		mStopBtn.addActionListener(listener);
+		this.mStopBtn.addActionListener(listener);
 	}
 
 	/**
@@ -171,7 +171,7 @@ public final class MainFrameView {
 	 *            Listener to add
 	 */
 	public void addWindowListener(final WindowListener listener) {
-		mFrame.addWindowListener(listener);
+		this.mFrame.addWindowListener(listener);
 	}
 
 	/**
@@ -180,7 +180,7 @@ public final class MainFrameView {
 	 * @return The selected input browser
 	 */
 	public EBrowser getBrowser() {
-		return (EBrowser) mBrowserChoiceBox.getSelectedItem();
+		return (EBrowser) this.mBrowserChoiceBox.getSelectedItem();
 	}
 
 	/**
@@ -189,7 +189,7 @@ public final class MainFrameView {
 	 * @return The input password
 	 */
 	public String getPassword() {
-		return mPasswordField.getText();
+		return this.mPasswordField.getText();
 	}
 
 	/**
@@ -198,7 +198,7 @@ public final class MainFrameView {
 	 * @return The input text to post
 	 */
 	public String getTextToPost() {
-		return mTextToPostArea.getText();
+		return this.mTextToPostArea.getText();
 	}
 
 	/**
@@ -207,7 +207,7 @@ public final class MainFrameView {
 	 * @return The input thread url
 	 */
 	public String getThreadUrl() {
-		return mThreadUrlField.getText();
+		return this.mThreadUrlField.getText();
 	}
 
 	/**
@@ -216,7 +216,7 @@ public final class MainFrameView {
 	 * @return The input username
 	 */
 	public String getUsername() {
-		return mUsernameField.getText();
+		return this.mUsernameField.getText();
 	}
 
 	/**
@@ -246,7 +246,7 @@ public final class MainFrameView {
 	 *            Whether the fields should be enabled or disabled
 	 */
 	public void setAllInputEnabled(final boolean enabled) {
-		for (JComponent element : mInputElements) {
+		for (JComponent element : this.mInputElements) {
 			element.setEnabled(enabled);
 		}
 	}
@@ -258,7 +258,7 @@ public final class MainFrameView {
 	 *            Whether the button should be enabled or disabled
 	 */
 	public void setSettingsButtonEnabled(final boolean enabled) {
-		mSettingsBtn.setEnabled(enabled);
+		this.mSettingsBtn.setEnabled(enabled);
 	}
 
 	/**
@@ -268,7 +268,7 @@ public final class MainFrameView {
 	 *            Whether the button should be enabled or disabled
 	 */
 	public void setStartButtonEnabled(final boolean enabled) {
-		mStartBtn.setEnabled(enabled);
+		this.mStartBtn.setEnabled(enabled);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public final class MainFrameView {
 	 *            Whether the button should be enabled or disabled
 	 */
 	public void setStopButtonEnabled(final boolean enabled) {
-		mStopBtn.setEnabled(enabled);
+		this.mStopBtn.setEnabled(enabled);
 	}
 
 	/**
@@ -294,14 +294,14 @@ public final class MainFrameView {
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
 		aset = sc.addAttribute(aset, StyleConstants.FontFamily, DEFAULT_FONT);
-		aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+		aset = sc.addAttribute(aset, StyleConstants.Alignment, Integer.valueOf(StyleConstants.ALIGN_JUSTIFIED));
 
-		int len = mLogArea.getDocument().getLength();
-		mLogArea.setCaretPosition(len);
-		mLogArea.setCharacterAttributes(aset, false);
-		mLogArea.setEditable(true);
-		mLogArea.replaceSelection(message);
-		mLogArea.setEditable(false);
+		int len = this.mLogArea.getDocument().getLength();
+		this.mLogArea.setCaretPosition(len);
+		this.mLogArea.setCharacterAttributes(aset, false);
+		this.mLogArea.setEditable(true);
+		this.mLogArea.replaceSelection(message);
+		this.mLogArea.setEditable(false);
 	}
 
 	/**
@@ -321,54 +321,54 @@ public final class MainFrameView {
 	 * Initialize the buttons.
 	 */
 	private void initializeButtons() {
-		mStartBtn = new JButton("Start");
-		mStartBtn.setBounds(180, 170, 100, 23);
-		mMainPanel.add(mStartBtn);
+		this.mStartBtn = new JButton("Start");
+		this.mStartBtn.setBounds(180, 170, 100, 23);
+		this.mMainPanel.add(this.mStartBtn);
 
-		mStopBtn = new JButton("Stop");
-		mStopBtn.setBounds(300, 170, 100, 23);
-		mMainPanel.add(mStopBtn);
+		this.mStopBtn = new JButton("Stop");
+		this.mStopBtn.setBounds(300, 170, 100, 23);
+		this.mMainPanel.add(this.mStopBtn);
 
-		mSettingsBtn = new LinkButton("Settings");
-		mSettingsBtn.setBounds(350, 0, 90, 23);
-		mTrailerPanel.add(mSettingsBtn);
+		this.mSettingsBtn = new LinkButton("Settings");
+		this.mSettingsBtn.setBounds(350, 0, 90, 23);
+		this.mTrailerPanel.add(this.mSettingsBtn);
 	}
 
 	/**
 	 * Initialize the text fields.
 	 */
 	private void initializeInputFields() {
-		mThreadUrlField = new JTextField();
-		mThreadUrlField.setHorizontalAlignment(SwingConstants.LEFT);
-		mThreadUrlField.setBounds(0, 20, mMainPanel.getWidth(), 20);
-		mMainPanel.add(mThreadUrlField);
-		mInputElements.add(mThreadUrlField);
-		mThreadUrlField.setColumns(DEFAULT_FIELD_COLUMNS);
+		this.mThreadUrlField = new JTextField();
+		this.mThreadUrlField.setHorizontalAlignment(SwingConstants.LEFT);
+		this.mThreadUrlField.setBounds(0, 20, this.mMainPanel.getWidth(), 20);
+		this.mMainPanel.add(this.mThreadUrlField);
+		this.mInputElements.add(this.mThreadUrlField);
+		this.mThreadUrlField.setColumns(DEFAULT_FIELD_COLUMNS);
 
-		mUsernameField = new JTextField();
-		mUsernameField.setHorizontalAlignment(SwingConstants.LEFT);
-		mUsernameField.setBounds((mMainPanel.getWidth() / 2) + 90, 70, 123, 20);
-		mMainPanel.add(mUsernameField);
-		mInputElements.add(mUsernameField);
-		mUsernameField.setColumns(DEFAULT_FIELD_COLUMNS);
+		this.mUsernameField = new JTextField();
+		this.mUsernameField.setHorizontalAlignment(SwingConstants.LEFT);
+		this.mUsernameField.setBounds((this.mMainPanel.getWidth() / 2) + 90, 70, 123, 20);
+		this.mMainPanel.add(this.mUsernameField);
+		this.mInputElements.add(this.mUsernameField);
+		this.mUsernameField.setColumns(DEFAULT_FIELD_COLUMNS);
 
-		mPasswordField = new JPasswordField();
-		mPasswordField.setHorizontalAlignment(SwingConstants.LEFT);
-		mPasswordField.setBounds((mMainPanel.getWidth() / 2) + 90, 100, 123, 20);
-		mMainPanel.add(mPasswordField);
-		mInputElements.add(mPasswordField);
-		mPasswordField.setColumns(DEFAULT_FIELD_COLUMNS);
+		this.mPasswordField = new JPasswordField();
+		this.mPasswordField.setHorizontalAlignment(SwingConstants.LEFT);
+		this.mPasswordField.setBounds((this.mMainPanel.getWidth() / 2) + 90, 100, 123, 20);
+		this.mMainPanel.add(this.mPasswordField);
+		this.mInputElements.add(this.mPasswordField);
+		this.mPasswordField.setColumns(DEFAULT_FIELD_COLUMNS);
 
-		mBrowserChoiceBox = new JComboBox<>();
+		this.mBrowserChoiceBox = new JComboBox<>();
 		for (EBrowser browser : EBrowser.values()) {
-			mBrowserChoiceBox.addItem(browser);
+			this.mBrowserChoiceBox.addItem(browser);
 			if (browser == EBrowser.FIREFOX) {
-				mBrowserChoiceBox.setSelectedItem(browser);
+				this.mBrowserChoiceBox.setSelectedItem(browser);
 			}
 		}
-		mBrowserChoiceBox.setBounds((mMainPanel.getWidth() / 2) + 90, 130, 123, 20);
-		mMainPanel.add(mBrowserChoiceBox);
-		mInputElements.add(mBrowserChoiceBox);
+		this.mBrowserChoiceBox.setBounds((this.mMainPanel.getWidth() / 2) + 90, 130, 123, 20);
+		this.mMainPanel.add(this.mBrowserChoiceBox);
+		this.mInputElements.add(this.mBrowserChoiceBox);
 	}
 
 	/**
@@ -379,71 +379,71 @@ public final class MainFrameView {
 		mThreadUrlLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		mThreadUrlLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mThreadUrlLbl.setBounds(0, 0, 75, 14);
-		mMainPanel.add(mThreadUrlLbl);
+		this.mMainPanel.add(mThreadUrlLbl);
 
 		JLabel mTextToPostLbl = new JLabel("Text to post:");
 		mTextToPostLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		mTextToPostLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mTextToPostLbl.setBounds(0, 50, 90, 14);
-		mMainPanel.add(mTextToPostLbl);
+		this.mMainPanel.add(mTextToPostLbl);
 
 		JLabel mUsernameLbl = new JLabel("Username:");
 		mUsernameLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mUsernameLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
-		mUsernameLbl.setBounds((mMainPanel.getWidth() / 2) + 20, 70, 65, 14);
-		mMainPanel.add(mUsernameLbl);
+		mUsernameLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 70, 65, 14);
+		this.mMainPanel.add(mUsernameLbl);
 
 		JLabel mPasswordLbl = new JLabel("Password:");
 		mPasswordLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mPasswordLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
-		mPasswordLbl.setBounds((mMainPanel.getWidth() / 2) + 20, 100, 65, 14);
-		mMainPanel.add(mPasswordLbl);
+		mPasswordLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 100, 65, 14);
+		this.mMainPanel.add(mPasswordLbl);
 
 		JLabel mBrowserChoiceLbl = new JLabel("Browser:");
 		mBrowserChoiceLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mBrowserChoiceLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
-		mBrowserChoiceLbl.setBounds((mMainPanel.getWidth() / 2) + 20, 130, 65, 14);
-		mMainPanel.add(mBrowserChoiceLbl);
+		mBrowserChoiceLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 130, 65, 14);
+		this.mMainPanel.add(mBrowserChoiceLbl);
 	}
 
 	/**
 	 * Initialize the panels.
 	 */
 	private void initializePanels() {
-		mMainPanel = new JPanel();
-		mMainPanel.setBounds(10, 10, WIDTH - 25, 200);
-		mContainer.add(mMainPanel);
-		mMainPanel.setLayout(null);
+		this.mMainPanel = new JPanel();
+		this.mMainPanel.setBounds(10, 10, WIDTH - 25, 200);
+		this.mContainer.add(this.mMainPanel);
+		this.mMainPanel.setLayout(null);
 
-		mTextToPostPane = new JScrollPane();
-		mTextToPostPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		mTextToPostPane.setBounds(0, 70, (mMainPanel.getWidth() / 2) - 20, 80);
-		mMainPanel.add(mTextToPostPane);
+		this.mTextToPostPane = new JScrollPane();
+		this.mTextToPostPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		this.mTextToPostPane.setBounds(0, 70, (this.mMainPanel.getWidth() / 2) - 20, 80);
+		this.mMainPanel.add(this.mTextToPostPane);
 
-		mLogPane = new JScrollPane();
-		mLogPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		mLogPane.setBounds(10, 230, WIDTH - 25, 100);
-		mContainer.add(mLogPane);
+		this.mLogPane = new JScrollPane();
+		this.mLogPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		this.mLogPane.setBounds(10, 230, WIDTH - 25, 100);
+		this.mContainer.add(this.mLogPane);
 
-		mTrailerPanel = new JPanel();
-		mTrailerPanel.setBounds(10, 330, WIDTH - 25, 50);
-		mContainer.add(mTrailerPanel);
-		mTrailerPanel.setLayout(null);
+		this.mTrailerPanel = new JPanel();
+		this.mTrailerPanel.setBounds(10, 330, WIDTH - 25, 50);
+		this.mContainer.add(this.mTrailerPanel);
+		this.mTrailerPanel.setLayout(null);
 	}
 
 	/**
 	 * Initialize the logging area.
 	 */
 	private void initializeTextAreas() {
-		mTextToPostArea = new JTextArea();
-		mTextToPostArea.setLineWrap(true);
-		mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
-		mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
-		mTextToPostPane.setViewportView(mTextToPostArea);
-		mInputElements.add(mTextToPostArea);
+		this.mTextToPostArea = new JTextArea();
+		this.mTextToPostArea.setLineWrap(true);
+		this.mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		this.mTextToPostArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+		this.mTextToPostPane.setViewportView(this.mTextToPostArea);
+		this.mInputElements.add(this.mTextToPostArea);
 
-		mLogArea = new JTextPane();
-		mLogArea.setEditable(false);
-		mLogPane.setViewportView(mLogArea);
+		this.mLogArea = new JTextPane();
+		this.mLogArea.setEditable(false);
+		this.mLogPane.setViewportView(this.mLogArea);
 	}
 }

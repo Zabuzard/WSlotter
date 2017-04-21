@@ -49,10 +49,10 @@ public class PostReplyTask implements ITask {
 	 *            The logger to use
 	 */
 	public PostReplyTask(final WebDriver driver, final String textToPost, final Logger logger) {
-		mDriver = driver;
-		mTextToPost = textToPost;
-		mLogger = logger;
-		mInterrupted = false;
+		this.mDriver = driver;
+		this.mTextToPost = textToPost;
+		this.mLogger = logger;
+		this.mInterrupted = false;
 	}
 
 	/*
@@ -62,7 +62,7 @@ public class PostReplyTask implements ITask {
 	 */
 	@Override
 	public void interrupt() {
-		mInterrupted = true;
+		this.mInterrupted = true;
 	}
 
 	/*
@@ -72,7 +72,7 @@ public class PostReplyTask implements ITask {
 	 */
 	@Override
 	public boolean isInterrupted() {
-		return mInterrupted;
+		return this.mInterrupted;
 	}
 
 	/*
@@ -84,16 +84,16 @@ public class PostReplyTask implements ITask {
 	public void start() {
 		// Check if post-reply form is already present
 		WebElement postReplySubmit = null;
-		mLogger.logInfo("Checking if post-reply is possible...", Logger.TOP_LEVEL);
+		this.mLogger.logInfo("Checking if post-reply is possible...", Logger.TOP_LEVEL);
 		try {
-			postReplySubmit = mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
+			postReplySubmit = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
 		} catch (NoSuchElementException e) {
-
+			// Just ignore the exception and continue with an error message
 		}
 
 		if (postReplySubmit == null) {
-			mLogger.logInfo("Not possible.", Logger.FIRST_LEVEL);
-			mLogger.logInfo("Attempting again...", Logger.TOP_LEVEL);
+			this.mLogger.logInfo("Not possible.", Logger.FIRST_LEVEL);
+			this.mLogger.logInfo("Attempting again...", Logger.TOP_LEVEL);
 			int attemptNumber = 0;
 
 			// Attempt again until interrupted or post-reply form found
@@ -102,22 +102,23 @@ public class PostReplyTask implements ITask {
 				if (attemptNumber == 0) {
 					// Hard refresh at first attempt to delete the login POST
 					// parameters from the refresh query
-					String currentUrl = mDriver.getCurrentUrl();
-					mDriver.get(currentUrl);
+					String currentUrl = this.mDriver.getCurrentUrl();
+					this.mDriver.get(currentUrl);
 				} else {
-					mDriver.navigate().refresh();
+					this.mDriver.navigate().refresh();
 				}
 
 				attemptNumber++;
 				if (attemptNumber % ATTEMPT_LOG_EVERY == 0) {
-					mLogger.logInfo("Attempt #" + attemptNumber, Logger.SECOND_LEVEL);
+					this.mLogger.logInfo("Attempt #" + attemptNumber, Logger.SECOND_LEVEL);
 				}
 
 				// Search for the post-reply form
 				try {
-					postReplySubmit = mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
+					postReplySubmit = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
 				} catch (NoSuchElementException e) {
-
+					// Just ignore the exception and continue with an error
+					// message
 				}
 			}
 		}
@@ -126,19 +127,22 @@ public class PostReplyTask implements ITask {
 			return;
 		}
 
-		mLogger.logInfo("Post-reply is possible.", Logger.FIRST_LEVEL);
-		mLogger.logInfo("Posting text...", Logger.TOP_LEVEL);
+		this.mLogger.logInfo("Post-reply is possible.", Logger.FIRST_LEVEL);
+		this.mLogger.logInfo("Posting text...", Logger.TOP_LEVEL);
 
 		// At this point the post-reply form is present
-		WebElement messageBox = mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
+		WebElement messageBox = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
 
 		// Type in message
-		messageBox.sendKeys(mTextToPost);
+		messageBox.sendKeys(this.mTextToPost);
 
 		// Submit form
+		if (postReplySubmit == null) {
+			throw new AssertionError();
+		}
 		postReplySubmit.click();
 
-		mLogger.logInfo("Text posted.", Logger.FIRST_LEVEL);
+		this.mLogger.logInfo("Text posted.", Logger.FIRST_LEVEL);
 	}
 
 }

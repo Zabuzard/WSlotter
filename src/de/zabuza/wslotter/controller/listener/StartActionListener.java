@@ -20,13 +20,11 @@ public class StartActionListener implements ActionListener {
 	/**
 	 * Creates a new listener of the start action.
 	 * 
-	 * @param view
-	 *            View of the main frame
 	 * @param controller
 	 *            Controller of the main frame
 	 */
 	public StartActionListener(final MainFrameController controller) {
-		mController = controller;
+		this.mController = controller;
 	}
 
 	/*
@@ -37,6 +35,6 @@ public class StartActionListener implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		mController.startRoutine();
+		this.mController.startRoutine();
 	}
 }

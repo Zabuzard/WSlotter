@@ -50,10 +50,10 @@ public final class MainFrameController {
 	 *            logger of the main frame
 	 */
 	public MainFrameController(final JFrame owner, final MainFrameView view, final Logger logger) {
-		mView = view;
-		mLogger = logger;
-		mSettingsController = new SettingsController(owner, view, logger);
-		mCurrentRoutine = null;
+		this.mView = view;
+		this.mLogger = logger;
+		this.mSettingsController = new SettingsController(owner, view, logger);
+		this.mCurrentRoutine = null;
 	}
 
 	/**
@@ -61,52 +61,53 @@ public final class MainFrameController {
 	 */
 	public void initialize() {
 		linkListener();
-		mSettingsController.initialize();
+		this.mSettingsController.initialize();
 	}
 
 	/**
 	 * Call this method when the routine has finished.
 	 */
 	public void routineFinished() {
-		mCurrentRoutine = null;
-		mLogger.logInfo("Routine finished.", Logger.TOP_LEVEL);
-		mView.setAllInputEnabled(true);
-		mView.setStartButtonEnabled(true);
-		mView.setStopButtonEnabled(false);
-		mView.setSettingsButtonEnabled(true);
+		this.mCurrentRoutine = null;
+		this.mLogger.logInfo("Routine finished.", Logger.TOP_LEVEL);
+		this.mView.setAllInputEnabled(true);
+		this.mView.setStartButtonEnabled(true);
+		this.mView.setStopButtonEnabled(false);
+		this.mView.setSettingsButtonEnabled(true);
 	}
 
 	/**
 	 * Starts the controller.
 	 */
 	public void start() {
-
+		// Nothing to do yet
 	}
 
 	/**
 	 * Starts the routine.
 	 */
 	public void startRoutine() {
-		mLogger.logInfo("Routine started.", Logger.TOP_LEVEL);
-		mView.setAllInputEnabled(false);
-		mView.setStartButtonEnabled(false);
-		mView.setStopButtonEnabled(true);
-		mView.setSettingsButtonEnabled(false);
+		this.mLogger.logInfo("Routine started.", Logger.TOP_LEVEL);
+		this.mView.setAllInputEnabled(false);
+		this.mView.setStartButtonEnabled(false);
+		this.mView.setStopButtonEnabled(true);
+		this.mView.setSettingsButtonEnabled(false);
 
-		mCurrentRoutine = new RoutineTask(mView.getThreadUrl(), mView.getTextToPost(), mView.getUsername(),
-				mView.getPassword(), mView.getBrowser(), mLogger, this, mSettingsController);
-		mCurrentRoutine.start();
+		this.mCurrentRoutine = new RoutineTask(this.mView.getThreadUrl(), this.mView.getTextToPost(),
+				this.mView.getUsername(), this.mView.getPassword(), this.mView.getBrowser(), this.mLogger, this,
+				this.mSettingsController);
+		this.mCurrentRoutine.start();
 	}
 
 	/**
 	 * Stops the routine.
 	 */
 	public void stopRoutine() {
-		mLogger.logInfo("Routine stopped.", Logger.TOP_LEVEL);
-		if (mCurrentRoutine != null) {
-			mCurrentRoutine.interrupt();
+		this.mLogger.logInfo("Routine stopped.", Logger.TOP_LEVEL);
+		if (this.mCurrentRoutine != null) {
+			this.mCurrentRoutine.interrupt();
 			try {
-				mCurrentRoutine.join(INTERRUPT_WAIT);
+				this.mCurrentRoutine.join(INTERRUPT_WAIT);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -117,8 +118,8 @@ public final class MainFrameController {
 	 * Links the listener to the view.
 	 */
 	private void linkListener() {
-		mView.addListenerToStartAction(new StartActionListener(this));
-		mView.addListenerToStopAction(new StopActionListener(this));
-		mView.addWindowListener(new StopAtWindowCloseListener(this));
+		this.mView.addListenerToStartAction(new StartActionListener(this));
+		this.mView.addListenerToStopAction(new StopActionListener(this));
+		this.mView.addWindowListener(new StopAtWindowCloseListener(this));
 	}
 }

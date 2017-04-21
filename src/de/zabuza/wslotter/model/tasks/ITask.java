@@ -1,5 +1,7 @@
 package de.zabuza.wslotter.model.tasks;
 
+import de.zabuza.wslotter.model.AbortTaskException;
+
 /**
  * Interface for tasks. A Task can be started and interrupted.
  * 

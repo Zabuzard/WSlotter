@@ -79,13 +79,13 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 *            The logger to use
 	 */
 	public SettingsController(final JFrame owner, final MainFrameView view, final Logger logger) {
-		mView = view;
-		mLogger = logger;
-		mOwner = owner;
+		this.mView = view;
+		this.mLogger = logger;
+		this.mOwner = owner;
 
-		mSettingsStore = new HashMap<>();
-		mSettings = new Settings(mLogger);
-		mSettingsDialog = null;
+		this.mSettingsStore = new HashMap<>();
+		this.mSettings = new Settings(this.mLogger);
+		this.mSettingsDialog = null;
 	}
 
 	/**
@@ -93,10 +93,10 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 * free the parent window of the dialog.
 	 */
 	public void closingSettingsDialog() {
-		mView.setAllInputEnabled(true);
-		mView.setStartButtonEnabled(true);
-		mView.setStopButtonEnabled(false);
-		mView.setSettingsButtonEnabled(true);
+		this.mView.setAllInputEnabled(true);
+		this.mView.setStartButtonEnabled(true);
+		this.mView.setStopButtonEnabled(false);
+		this.mView.setSettingsButtonEnabled(true);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	public void executeSaveAction() {
 		// Driver settings
 		for (EBrowser browser : EBrowser.values()) {
-			JTextField field = mSettingsDialog.getBrowserDriverField(browser);
+			JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
 			String value = field.getText();
 			if (!value.equals(UNKNOWN_KEY_VALUE)) {
 				String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
@@ -115,7 +115,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 		}
 
 		// Binary settings
-		JTextField field = mSettingsDialog.getBrowserBinaryField();
+		JTextField field = this.mSettingsDialog.getBrowserBinaryField();
 		String value = field.getText();
 		if (!value.equals(UNKNOWN_KEY_VALUE)) {
 			String key = KEY_IDENTIFIER_BINARY;
@@ -123,10 +123,10 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 		}
 
 		// Save settings
-		mSettings.saveSettings(this);
+		this.mSettings.saveSettings(this);
 
 		// Close the settings dialog
-		mSettingsDialog.dispatchEvent(new WindowEvent(mSettingsDialog, WindowEvent.WINDOW_CLOSING));
+		this.mSettingsDialog.dispatchEvent(new WindowEvent(this.mSettingsDialog, WindowEvent.WINDOW_CLOSING));
 	}
 
 	/**
@@ -135,18 +135,18 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	public void executeSettingsAction() {
 		// Deactivate all actions until the settings dialog has closed
-		mView.setAllInputEnabled(false);
-		mView.setStartButtonEnabled(false);
-		mView.setStopButtonEnabled(false);
-		mView.setSettingsButtonEnabled(false);
+		this.mView.setAllInputEnabled(false);
+		this.mView.setStartButtonEnabled(false);
+		this.mView.setStopButtonEnabled(false);
+		this.mView.setSettingsButtonEnabled(false);
 
 		// Open the dialog
-		mSettingsDialog = new SettingsDialog(mOwner);
+		this.mSettingsDialog = new SettingsDialog(this.mOwner);
 		linkDialogListener();
 
 		// Load settings to the store
 		passSettingsToView();
-		mSettingsDialog.setVisible(true);
+		this.mSettingsDialog.setVisible(true);
 	}
 
 	/*
@@ -157,7 +157,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	@Override
 	public Map<String, String> getAllSettings() {
-		return mSettingsStore;
+		return this.mSettingsStore;
 	}
 
 	/*
@@ -170,9 +170,8 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 		String binary = getSetting(KEY_IDENTIFIER_BINARY);
 		if (binary.equals(UNKNOWN_KEY_VALUE)) {
 			return null;
-		} else {
-			return binary;
 		}
+		return binary;
 	}
 
 	/*
@@ -188,9 +187,8 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 		String driver = getSetting(key);
 		if (driver.equals(UNKNOWN_KEY_VALUE)) {
 			return null;
-		} else {
-			return driver;
 		}
+		return driver;
 	}
 
 	/*
@@ -202,7 +200,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	@Override
 	public String getSetting(final String key) {
-		String value = mSettingsStore.get(key);
+		String value = this.mSettingsStore.get(key);
 		if (value == null) {
 			value = UNKNOWN_KEY_VALUE;
 		}
@@ -214,7 +212,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	public void initialize() {
 		linkListener();
-		mSettings.loadSettings(this);
+		this.mSettings.loadSettings(this);
 	}
 
 	/*
@@ -226,7 +224,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	@Override
 	public void setSetting(final String key, final String value) {
-		mSettingsStore.put(key, value);
+		this.mSettingsStore.put(key, value);
 	}
 
 	/**
@@ -234,48 +232,48 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	private void linkDialogListener() {
 		// Window listener
-		mSettingsDialog.addWindowListener(new ClosingCallbackWindowListener(this));
+		this.mSettingsDialog.addWindowListener(new ClosingCallbackWindowListener(this));
 
 		// Browser field listener
 		for (EBrowser browser : EBrowser.values()) {
-			ActionListener listener = new FileChooseSetActionListener(mSettingsDialog,
-					mSettingsDialog.getBrowserDriverField(browser));
-			mSettingsDialog.addListenerToBrowserDriverSelectionAction(browser, listener);
+			ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
+					this.mSettingsDialog.getBrowserDriverField(browser));
+			this.mSettingsDialog.addListenerToBrowserDriverSelectionAction(browser, listener);
 		}
 
 		// Binary listener
-		ActionListener listener = new FileChooseSetActionListener(mSettingsDialog,
-				mSettingsDialog.getBrowserBinaryField());
-		mSettingsDialog.addListenerToBrowserBinarySelectionAction(listener);
+		ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
+				this.mSettingsDialog.getBrowserBinaryField());
+		this.mSettingsDialog.addListenerToBrowserBinarySelectionAction(listener);
 
 		// Save and cancel listener
-		mSettingsDialog.addListenerToSaveAction(new SaveActionListener(this));
-		mSettingsDialog.addListenerToCancelAction(new CloseAtCancelActionListener(mSettingsDialog));
+		this.mSettingsDialog.addListenerToSaveAction(new SaveActionListener(this));
+		this.mSettingsDialog.addListenerToCancelAction(new CloseAtCancelActionListener(this.mSettingsDialog));
 	}
 
 	/**
 	 * Links the listener to the view.
 	 */
 	private void linkListener() {
-		mView.addListenerToSettingsAction(new SettingsActionListener(this));
+		this.mView.addListenerToSettingsAction(new SettingsActionListener(this));
 	}
 
 	/**
 	 * Passes the settings of the store to the view for display.
 	 */
 	private void passSettingsToView() {
-		for (Entry<String, String> entry : mSettingsStore.entrySet()) {
+		for (Entry<String, String> entry : this.mSettingsStore.entrySet()) {
 			String[] keySplit = entry.getKey().split(KEY_INFO_SEPARATOR);
 			String keyIdentifier = keySplit[0];
 
 			if (keyIdentifier.equals(KEY_IDENTIFIER_DRIVER)) {
 				// Driver settings
 				EBrowser browser = EBrowser.valueOf(keySplit[1]);
-				JTextField field = mSettingsDialog.getBrowserDriverField(browser);
+				JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
 				field.setText(entry.getValue());
 			} else if (keyIdentifier.equals(KEY_IDENTIFIER_BINARY)) {
 				// Binary settings
-				JTextField field = mSettingsDialog.getBrowserBinaryField();
+				JTextField field = this.mSettingsDialog.getBrowserBinaryField();
 				field.setText(entry.getValue());
 			} else {
 				throw new IllegalStateException(

@@ -29,137 +29,6 @@ import de.zabuza.wslotter.model.IBrowserSettingsProvider;
 public final class RoutineTask extends Thread implements ITask {
 
 	/**
-	 * The browser to use.
-	 */
-	private final EBrowser mBrowser;
-	/**
-	 * The browser driver provider.
-	 */
-	private IBrowserSettingsProvider mBrowserSettingsProvider;
-	/**
-	 * The controller of the main frame.
-	 */
-	private final MainFrameController mController;
-	/**
-	 * The current executing sub task.
-	 */
-	private ITask mCurrentSubTask;
-	/**
-	 * The web driver to use.
-	 */
-	private WebDriver mDriver;
-	/**
-	 * The logger to use.
-	 */
-	private final Logger mLogger;
-	/**
-	 * The password of the user to post with.
-	 */
-	private final String mPassword;
-	/**
-	 * The text to post.
-	 */
-	private final String mTextToPost;
-	/**
-	 * The URL of the thread to post to.
-	 */
-	private final String mThreadUrl;
-	/**
-	 * The name of the user to post with.
-	 */
-	private final String mUsername;
-
-	/**
-	 * Creates a new routine task.
-	 * 
-	 * @param threadUrl
-	 *            The URL of the thread to post to
-	 * @param textToPost
-	 *            The text to post
-	 * @param username
-	 *            The name of the user to post with
-	 * @param password
-	 *            The password of the user to post with
-	 * @param browser
-	 *            The browser to use
-	 * @param logger
-	 *            The logger to use
-	 * @param controller
-	 *            The controller of the main frame
-	 * @param browserSettingsProvider
-	 *            The browser settings provider
-	 */
-	public RoutineTask(final String threadUrl, final String textToPost, final String username, final String password,
-			final EBrowser browser, final Logger logger, final MainFrameController controller,
-			final IBrowserSettingsProvider browserSettingsProvider) {
-		mThreadUrl = threadUrl;
-		mTextToPost = textToPost;
-		mUsername = username;
-		mPassword = password;
-		mBrowser = browser;
-		mLogger = logger;
-		mController = controller;
-		mBrowserSettingsProvider = browserSettingsProvider;
-
-		mDriver = null;
-		mCurrentSubTask = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Thread#interrupt()
-	 */
-	@Override
-	public void interrupt() {
-		if (mCurrentSubTask != null) {
-			mCurrentSubTask.interrupt();
-		}
-		super.interrupt();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Thread#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			// Create browser
-			mLogger.logInfo("Starting web driver...", Logger.TOP_LEVEL);
-			mDriver = createWebDriver(mBrowser);
-			mLogger.logInfo("Web driver started.", Logger.FIRST_LEVEL);
-
-			// Goto thread
-			registerAndStartSubTask(new GotoThreadTask(mDriver, mThreadUrl, mLogger));
-			if (isInterrupted()) {
-				return;
-			}
-
-			// Login to the site
-			registerAndStartSubTask(new LoginTask(mDriver, mUsername, mPassword, mLogger));
-			if (isInterrupted()) {
-				return;
-			}
-
-			// Wait for the post-reply form and post the message
-			registerAndStartSubTask(new PostReplyTask(mDriver, mTextToPost, mLogger));
-			if (isInterrupted()) {
-				return;
-			}
-
-		} catch (AbortTaskException e) {
-			// Known exception, just terminate
-		} catch (Exception e) {
-			mLogger.logUnknownError(e);
-		} finally {
-			terminate();
-			mController.routineFinished();
-		}
-	}
-
-	/**
 	 * Creates the capabilities to use with a browser for the given arguments.
 	 * 
 	 * @param browser
@@ -170,7 +39,8 @@ public final class RoutineTask extends Thread implements ITask {
 	 *            Path to the binary or <tt>null</tt> if not set
 	 * @return The capabilities to use or <tt>null</tt> if there are no
 	 */
-	private Capabilities createCapabilities(final EBrowser browser, final String driverPath, final String binaryPath) {
+	private static Capabilities createCapabilities(final EBrowser browser, final String driverPath,
+			final String binaryPath) {
 		DesiredCapabilities capabilities = null;
 
 		if (browser == EBrowser.FIREFOX) {
@@ -257,17 +127,147 @@ public final class RoutineTask extends Thread implements ITask {
 	}
 
 	/**
-	 * Creates a {@link #WebDriver} that uses the given browser. If a capability
-	 * object was set using {@link #setCapabilities(Capabilities)} then it will
-	 * also be passed to the created browser.
+	 * The browser to use.
+	 */
+	private final EBrowser mBrowser;
+	/**
+	 * The browser driver provider.
+	 */
+	private IBrowserSettingsProvider mBrowserSettingsProvider;
+	/**
+	 * The controller of the main frame.
+	 */
+	private final MainFrameController mController;
+	/**
+	 * The current executing sub task.
+	 */
+	private ITask mCurrentSubTask;
+	/**
+	 * The web driver to use.
+	 */
+	private WebDriver mDriver;
+	/**
+	 * The logger to use.
+	 */
+	private final Logger mLogger;
+	/**
+	 * The password of the user to post with.
+	 */
+	private final String mPassword;
+	/**
+	 * The text to post.
+	 */
+	private final String mTextToPost;
+	/**
+	 * The URL of the thread to post to.
+	 */
+	private final String mThreadUrl;
+
+	/**
+	 * The name of the user to post with.
+	 */
+	private final String mUsername;
+
+	/**
+	 * Creates a new routine task.
+	 * 
+	 * @param threadUrl
+	 *            The URL of the thread to post to
+	 * @param textToPost
+	 *            The text to post
+	 * @param username
+	 *            The name of the user to post with
+	 * @param password
+	 *            The password of the user to post with
+	 * @param browser
+	 *            The browser to use
+	 * @param logger
+	 *            The logger to use
+	 * @param controller
+	 *            The controller of the main frame
+	 * @param browserSettingsProvider
+	 *            The browser settings provider
+	 */
+	public RoutineTask(final String threadUrl, final String textToPost, final String username, final String password,
+			final EBrowser browser, final Logger logger, final MainFrameController controller,
+			final IBrowserSettingsProvider browserSettingsProvider) {
+		this.mThreadUrl = threadUrl;
+		this.mTextToPost = textToPost;
+		this.mUsername = username;
+		this.mPassword = password;
+		this.mBrowser = browser;
+		this.mLogger = logger;
+		this.mController = controller;
+		this.mBrowserSettingsProvider = browserSettingsProvider;
+
+		this.mDriver = null;
+		this.mCurrentSubTask = null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Thread#interrupt()
+	 */
+	@Override
+	public void interrupt() {
+		if (this.mCurrentSubTask != null) {
+			this.mCurrentSubTask.interrupt();
+		}
+		super.interrupt();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Thread#run()
+	 */
+	@Override
+	public void run() {
+		try {
+			// Create browser
+			this.mLogger.logInfo("Starting web driver...", Logger.TOP_LEVEL);
+			this.mDriver = createWebDriver(this.mBrowser);
+			this.mLogger.logInfo("Web driver started.", Logger.FIRST_LEVEL);
+
+			// Goto thread
+			registerAndStartSubTask(new GotoThreadTask(this.mDriver, this.mThreadUrl, this.mLogger));
+			if (isInterrupted()) {
+				return;
+			}
+
+			// Login to the site
+			registerAndStartSubTask(new LoginTask(this.mDriver, this.mUsername, this.mPassword, this.mLogger));
+			if (isInterrupted()) {
+				return;
+			}
+
+			// Wait for the post-reply form and post the message
+			registerAndStartSubTask(new PostReplyTask(this.mDriver, this.mTextToPost, this.mLogger));
+			if (isInterrupted()) {
+				return;
+			}
+
+		} catch (AbortTaskException e) {
+			// Known exception, just terminate
+		} catch (Exception e) {
+			this.mLogger.logUnknownError(e);
+		} finally {
+			terminate();
+			this.mController.routineFinished();
+		}
+	}
+
+	/**
+	 * Creates a {@link WebDriver} that uses the given browser.
 	 * 
 	 * @param browser
 	 *            Browser to use for the driver
 	 * @return Webdriver that uses the given browser
 	 */
 	private WebDriver createWebDriver(final EBrowser browser) {
-		String driverPath = mBrowserSettingsProvider.getDriverForBrowser(browser);
-		String binaryPath = mBrowserSettingsProvider.getBrowserBinary();
+		String driverPath = this.mBrowserSettingsProvider.getDriverForBrowser(browser);
+		String binaryPath = this.mBrowserSettingsProvider.getBrowserBinary();
 		Capabilities capabilities = createCapabilities(browser, driverPath, binaryPath);
 
 		WebDriver driver;
@@ -321,16 +321,16 @@ public final class RoutineTask extends Thread implements ITask {
 	 *            Sub task to register and start
 	 */
 	private void registerAndStartSubTask(final ITask subTask) {
-		mCurrentSubTask = subTask;
-		mCurrentSubTask.start();
+		this.mCurrentSubTask = subTask;
+		this.mCurrentSubTask.start();
 	}
 
 	/**
 	 * Terminates the current task and shuts down the web driver.
 	 */
 	private void terminate() {
-		if (mDriver != null) {
-			mDriver.close();
+		if (this.mDriver != null) {
+			this.mDriver.close();
 		}
 	}
 }

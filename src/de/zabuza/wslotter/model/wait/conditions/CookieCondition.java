@@ -24,7 +24,7 @@ public final class CookieCondition implements ExpectedCondition<Cookie> {
 	 *            Name of the cookie
 	 */
 	public CookieCondition(final String name) {
-		mName = name;
+		this.mName = name;
 	}
 
 	/*
@@ -34,6 +34,6 @@ public final class CookieCondition implements ExpectedCondition<Cookie> {
 	 */
 	@Override
 	public Cookie apply(final WebDriver driver) {
-		return driver.manage().getCookieNamed(mName);
+		return driver.manage().getCookieNamed(this.mName);
 	}
 }

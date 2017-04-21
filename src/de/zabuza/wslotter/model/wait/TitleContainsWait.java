@@ -27,7 +27,7 @@ public class TitleContainsWait extends AConditionalWait<Boolean> {
 	 */
 	public TitleContainsWait(final WebDriver driver, final String needle) {
 		super(driver);
-		mCondition = ExpectedConditions.titleContains(needle);
+		this.mCondition = ExpectedConditions.titleContains(needle);
 	}
 
 	/*
@@ -37,6 +37,6 @@ public class TitleContainsWait extends AConditionalWait<Boolean> {
 	 */
 	@Override
 	protected ExpectedCondition<Boolean> getCondition() {
-		return mCondition;
+		return this.mCondition;
 	}
 }
