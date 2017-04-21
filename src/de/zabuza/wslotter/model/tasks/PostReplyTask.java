@@ -131,7 +131,8 @@ public class PostReplyTask implements ITask {
 		this.mLogger.logInfo("Posting text...", Logger.TOP_LEVEL);
 
 		// At this point the post-reply form is present
-		final WebElement messageBox = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
+		final WebElement messageBox = this.mDriver
+				.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
 
 		// Type in message
 		messageBox.sendKeys(this.mTextToPost);
