@@ -105,20 +105,20 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	public void executeSaveAction() {
 		// Driver settings
-		for (EBrowser browser : EBrowser.values()) {
-			JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
-			String value = field.getText();
+		for (final EBrowser browser : EBrowser.values()) {
+			final JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
+			final String value = field.getText();
 			if (!value.equals(UNKNOWN_KEY_VALUE)) {
-				String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
+				final String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
 				setSetting(key, value);
 			}
 		}
 
 		// Binary settings
-		JTextField field = this.mSettingsDialog.getBrowserBinaryField();
-		String value = field.getText();
+		final JTextField field = this.mSettingsDialog.getBrowserBinaryField();
+		final String value = field.getText();
 		if (!value.equals(UNKNOWN_KEY_VALUE)) {
-			String key = KEY_IDENTIFIER_BINARY;
+			final String key = KEY_IDENTIFIER_BINARY;
 			setSetting(key, value);
 		}
 
@@ -167,7 +167,7 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	@Override
 	public String getBrowserBinary() {
-		String binary = getSetting(KEY_IDENTIFIER_BINARY);
+		final String binary = getSetting(KEY_IDENTIFIER_BINARY);
 		if (binary.equals(UNKNOWN_KEY_VALUE)) {
 			return null;
 		}
@@ -183,8 +183,8 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 */
 	@Override
 	public String getDriverForBrowser(final EBrowser browser) {
-		String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
-		String driver = getSetting(key);
+		final String key = KEY_IDENTIFIER_DRIVER + KEY_INFO_SEPARATOR + browser;
+		final String driver = getSetting(key);
 		if (driver.equals(UNKNOWN_KEY_VALUE)) {
 			return null;
 		}
@@ -235,14 +235,14 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 		this.mSettingsDialog.addWindowListener(new ClosingCallbackWindowListener(this));
 
 		// Browser field listener
-		for (EBrowser browser : EBrowser.values()) {
-			ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
+		for (final EBrowser browser : EBrowser.values()) {
+			final ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
 					this.mSettingsDialog.getBrowserDriverField(browser));
 			this.mSettingsDialog.addListenerToBrowserDriverSelectionAction(browser, listener);
 		}
 
 		// Binary listener
-		ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
+		final ActionListener listener = new FileChooseSetActionListener(this.mSettingsDialog,
 				this.mSettingsDialog.getBrowserBinaryField());
 		this.mSettingsDialog.addListenerToBrowserBinarySelectionAction(listener);
 
@@ -262,18 +262,18 @@ public final class SettingsController implements ISettingsProvider, IBrowserSett
 	 * Passes the settings of the store to the view for display.
 	 */
 	private void passSettingsToView() {
-		for (Entry<String, String> entry : this.mSettingsStore.entrySet()) {
-			String[] keySplit = entry.getKey().split(KEY_INFO_SEPARATOR);
-			String keyIdentifier = keySplit[0];
+		for (final Entry<String, String> entry : this.mSettingsStore.entrySet()) {
+			final String[] keySplit = entry.getKey().split(KEY_INFO_SEPARATOR);
+			final String keyIdentifier = keySplit[0];
 
 			if (keyIdentifier.equals(KEY_IDENTIFIER_DRIVER)) {
 				// Driver settings
-				EBrowser browser = EBrowser.valueOf(keySplit[1]);
-				JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
+				final EBrowser browser = EBrowser.valueOf(keySplit[1]);
+				final JTextField field = this.mSettingsDialog.getBrowserDriverField(browser);
 				field.setText(entry.getValue());
 			} else if (keyIdentifier.equals(KEY_IDENTIFIER_BINARY)) {
 				// Binary settings
-				JTextField field = this.mSettingsDialog.getBrowserBinaryField();
+				final JTextField field = this.mSettingsDialog.getBrowserBinaryField();
 				field.setText(entry.getValue());
 			} else {
 				throw new IllegalStateException(

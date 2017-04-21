@@ -246,7 +246,7 @@ public final class MainFrameView {
 	 *            Whether the fields should be enabled or disabled
 	 */
 	public void setAllInputEnabled(final boolean enabled) {
-		for (JComponent element : this.mInputElements) {
+		for (final JComponent element : this.mInputElements) {
 			element.setEnabled(enabled);
 		}
 	}
@@ -290,13 +290,13 @@ public final class MainFrameView {
 	 *            Color of the message
 	 */
 	private void appendToLog(final String message, final Color color) {
-		StyleContext sc = StyleContext.getDefaultStyleContext();
+		final StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
 		aset = sc.addAttribute(aset, StyleConstants.FontFamily, DEFAULT_FONT);
 		aset = sc.addAttribute(aset, StyleConstants.Alignment, Integer.valueOf(StyleConstants.ALIGN_JUSTIFIED));
 
-		int len = this.mLogArea.getDocument().getLength();
+		final int len = this.mLogArea.getDocument().getLength();
 		this.mLogArea.setCaretPosition(len);
 		this.mLogArea.setCharacterAttributes(aset, false);
 		this.mLogArea.setEditable(true);
@@ -360,7 +360,7 @@ public final class MainFrameView {
 		this.mPasswordField.setColumns(DEFAULT_FIELD_COLUMNS);
 
 		this.mBrowserChoiceBox = new JComboBox<>();
-		for (EBrowser browser : EBrowser.values()) {
+		for (final EBrowser browser : EBrowser.values()) {
 			this.mBrowserChoiceBox.addItem(browser);
 			if (browser == EBrowser.FIREFOX) {
 				this.mBrowserChoiceBox.setSelectedItem(browser);
@@ -375,31 +375,31 @@ public final class MainFrameView {
 	 * Initialize the labels.
 	 */
 	private void initializeLabels() {
-		JLabel mThreadUrlLbl = new JLabel("Thread URL:");
+		final JLabel mThreadUrlLbl = new JLabel("Thread URL:");
 		mThreadUrlLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		mThreadUrlLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mThreadUrlLbl.setBounds(0, 0, 75, 14);
 		this.mMainPanel.add(mThreadUrlLbl);
 
-		JLabel mTextToPostLbl = new JLabel("Text to post:");
+		final JLabel mTextToPostLbl = new JLabel("Text to post:");
 		mTextToPostLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		mTextToPostLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mTextToPostLbl.setBounds(0, 50, 90, 14);
 		this.mMainPanel.add(mTextToPostLbl);
 
-		JLabel mUsernameLbl = new JLabel("Username:");
+		final JLabel mUsernameLbl = new JLabel("Username:");
 		mUsernameLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mUsernameLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mUsernameLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 70, 65, 14);
 		this.mMainPanel.add(mUsernameLbl);
 
-		JLabel mPasswordLbl = new JLabel("Password:");
+		final JLabel mPasswordLbl = new JLabel("Password:");
 		mPasswordLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mPasswordLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mPasswordLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 100, 65, 14);
 		this.mMainPanel.add(mPasswordLbl);
 
-		JLabel mBrowserChoiceLbl = new JLabel("Browser:");
+		final JLabel mBrowserChoiceLbl = new JLabel("Browser:");
 		mBrowserChoiceLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mBrowserChoiceLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mBrowserChoiceLbl.setBounds((this.mMainPanel.getWidth() / 2) + 20, 130, 65, 14);

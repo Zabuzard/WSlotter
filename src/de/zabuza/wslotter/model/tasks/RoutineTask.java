@@ -55,8 +55,8 @@ public final class RoutineTask extends Thread implements ITask {
 
 			// Set the binary
 			if (binaryPath != null) {
-				File pathToBinary = new File(binaryPath);
-				FirefoxBinary binary = new FirefoxBinary(pathToBinary);
+				final File pathToBinary = new File(binaryPath);
+				final FirefoxBinary binary = new FirefoxBinary(pathToBinary);
 				capabilities.setCapability(FirefoxDriver.BINARY, binary);
 			}
 		} else if (browser == EBrowser.CHROME) {
@@ -133,7 +133,7 @@ public final class RoutineTask extends Thread implements ITask {
 	/**
 	 * The browser driver provider.
 	 */
-	private IBrowserSettingsProvider mBrowserSettingsProvider;
+	private final IBrowserSettingsProvider mBrowserSettingsProvider;
 	/**
 	 * The controller of the main frame.
 	 */
@@ -248,9 +248,9 @@ public final class RoutineTask extends Thread implements ITask {
 				return;
 			}
 
-		} catch (AbortTaskException e) {
+		} catch (final AbortTaskException e) {
 			// Known exception, just terminate
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			this.mLogger.logUnknownError(e);
 		} finally {
 			terminate();
@@ -266,9 +266,9 @@ public final class RoutineTask extends Thread implements ITask {
 	 * @return Webdriver that uses the given browser
 	 */
 	private WebDriver createWebDriver(final EBrowser browser) {
-		String driverPath = this.mBrowserSettingsProvider.getDriverForBrowser(browser);
-		String binaryPath = this.mBrowserSettingsProvider.getBrowserBinary();
-		Capabilities capabilities = createCapabilities(browser, driverPath, binaryPath);
+		final String driverPath = this.mBrowserSettingsProvider.getDriverForBrowser(browser);
+		final String binaryPath = this.mBrowserSettingsProvider.getBrowserBinary();
+		final Capabilities capabilities = createCapabilities(browser, driverPath, binaryPath);
 
 		WebDriver driver;
 		if (browser == EBrowser.FIREFOX) {

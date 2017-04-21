@@ -23,7 +23,7 @@ public class PostReplyTask implements ITask {
 	/**
 	 * The web driver to use.
 	 */
-	private WebDriver mDriver;
+	private final WebDriver mDriver;
 	/**
 	 * Whether interrupted flag of the task is set.
 	 */
@@ -87,7 +87,7 @@ public class PostReplyTask implements ITask {
 		this.mLogger.logInfo("Checking if post-reply is possible...", Logger.TOP_LEVEL);
 		try {
 			postReplySubmit = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			// Just ignore the exception and continue with an error message
 		}
 
@@ -102,7 +102,7 @@ public class PostReplyTask implements ITask {
 				if (attemptNumber == 0) {
 					// Hard refresh at first attempt to delete the login POST
 					// parameters from the refresh query
-					String currentUrl = this.mDriver.getCurrentUrl();
+					final String currentUrl = this.mDriver.getCurrentUrl();
 					this.mDriver.get(currentUrl);
 				} else {
 					this.mDriver.navigate().refresh();
@@ -116,7 +116,7 @@ public class PostReplyTask implements ITask {
 				// Search for the post-reply form
 				try {
 					postReplySubmit = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_SUBMIT));
-				} catch (NoSuchElementException e) {
+				} catch (final NoSuchElementException e) {
 					// Just ignore the exception and continue with an error
 					// message
 				}
@@ -131,7 +131,7 @@ public class PostReplyTask implements ITask {
 		this.mLogger.logInfo("Posting text...", Logger.TOP_LEVEL);
 
 		// At this point the post-reply form is present
-		WebElement messageBox = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
+		final WebElement messageBox = this.mDriver.findElement(By.cssSelector(CSSSelectors.POST_REPLY_FORM_MESSAGE_BOX));
 
 		// Type in message
 		messageBox.sendKeys(this.mTextToPost);

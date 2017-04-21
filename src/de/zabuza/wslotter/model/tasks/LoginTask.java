@@ -30,7 +30,7 @@ public class LoginTask implements ITask {
 	/**
 	 * The web driver to use.
 	 */
-	private WebDriver mDriver;
+	private final WebDriver mDriver;
 	/**
 	 * Whether interrupted flag of the task is set.
 	 */
@@ -102,16 +102,16 @@ public class LoginTask implements ITask {
 			this.mLogger.logInfo("Checking if already logged in...", Logger.TOP_LEVEL);
 			sessionCookie = new CookiePresenceWait(this.mDriver, Names.COOKIE_SESSION, ALREADY_LOGGED_IN_WAIT)
 					.waitUntilCondition();
-		} catch (TimeoutException e) {
+		} catch (final TimeoutException e) {
 			// Just ignore the exception and continue
 		}
 		if (sessionCookie == null) {
 			this.mLogger.logInfo("Not logged in.", Logger.FIRST_LEVEL);
 			this.mLogger.logInfo("Logging in...", Logger.TOP_LEVEL);
 			// Login
-			WebElement loginSubmit = new LoginFormWait(this.mDriver).waitUntilCondition();
-			WebElement loginName = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_NAME));
-			WebElement loginPassword = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_PASSWORD));
+			final WebElement loginSubmit = new LoginFormWait(this.mDriver).waitUntilCondition();
+			final WebElement loginName = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_NAME));
+			final WebElement loginPassword = this.mDriver.findElement(By.cssSelector(CSSSelectors.LOGIN_FORM_PASSWORD));
 
 			// Type in user credentials
 			loginName.sendKeys(this.mUsername);
@@ -123,7 +123,7 @@ public class LoginTask implements ITask {
 			// Check if login succeeded
 			try {
 				sessionCookie = new CookiePresenceWait(this.mDriver, Names.COOKIE_SESSION).waitUntilCondition();
-			} catch (TimeoutException e) {
+			} catch (final TimeoutException e) {
 				// Just ignore the exception and continue
 			}
 			if (sessionCookie == null) {

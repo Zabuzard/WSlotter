@@ -266,7 +266,7 @@ public final class SettingsDialog extends JDialog {
 	 *            Whether the elements should be enabled or disabled
 	 */
 	public void setAllElementsEnabled(final boolean enabled) {
-		for (JComponent element : this.mElements) {
+		for (final JComponent element : this.mElements) {
 			element.setEnabled(enabled);
 		}
 	}
@@ -394,43 +394,43 @@ public final class SettingsDialog extends JDialog {
 	 * Initialize the labels.
 	 */
 	private void initializeLabels() {
-		JLabel mChromeDriverLbl = new JLabel("Chrome:");
+		final JLabel mChromeDriverLbl = new JLabel("Chrome:");
 		mChromeDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mChromeDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mChromeDriverLbl.setBounds(10, 30, 60, 14);
 		this.mDriverPanel.add(mChromeDriverLbl);
 
-		JLabel mFirefoxDriverLbl = new JLabel("Firefox:");
+		final JLabel mFirefoxDriverLbl = new JLabel("Firefox:");
 		mFirefoxDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mFirefoxDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mFirefoxDriverLbl.setBounds(10, 60, 60, 14);
 		this.mDriverPanel.add(mFirefoxDriverLbl);
 
-		JLabel mInternetExplorerDriverLbl = new JLabel("IE:");
+		final JLabel mInternetExplorerDriverLbl = new JLabel("IE:");
 		mInternetExplorerDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mInternetExplorerDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mInternetExplorerDriverLbl.setBounds(10, 90, 60, 14);
 		this.mDriverPanel.add(mInternetExplorerDriverLbl);
 
-		JLabel mMsEdgeDriverLbl = new JLabel("MS Edge:");
+		final JLabel mMsEdgeDriverLbl = new JLabel("MS Edge:");
 		mMsEdgeDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mMsEdgeDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mMsEdgeDriverLbl.setBounds(10, 120, 60, 14);
 		this.mDriverPanel.add(mMsEdgeDriverLbl);
 
-		JLabel mOperaDriverLbl = new JLabel("Opera:");
+		final JLabel mOperaDriverLbl = new JLabel("Opera:");
 		mOperaDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mOperaDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mOperaDriverLbl.setBounds(10, 150, 60, 14);
 		this.mDriverPanel.add(mOperaDriverLbl);
 
-		JLabel mSafariDriverLbl = new JLabel("Safari:");
+		final JLabel mSafariDriverLbl = new JLabel("Safari:");
 		mSafariDriverLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mSafariDriverLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mSafariDriverLbl.setBounds(10, 180, 60, 14);
 		this.mDriverPanel.add(mSafariDriverLbl);
 
-		JLabel mBrowserBinaryLbl = new JLabel("Browser:");
+		final JLabel mBrowserBinaryLbl = new JLabel("Browser:");
 		mBrowserBinaryLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		mBrowserBinaryLbl.setFont(new Font(DEFAULT_FONT, Font.BOLD, DEFAULT_FONT_SIZE + 1));
 		mBrowserBinaryLbl.setBounds(10, 30, 60, 14);
@@ -443,14 +443,14 @@ public final class SettingsDialog extends JDialog {
 	private void initializePanels() {
 		this.mDriverPanel = new JPanel();
 		this.mDriverPanel.setBounds(10, 10, FRAME_WIDTH - 25, 220);
-		TitledBorder titledBorderDriver = BorderFactory.createTitledBorder(DRIVER_TITLE);
+		final TitledBorder titledBorderDriver = BorderFactory.createTitledBorder(DRIVER_TITLE);
 		this.mDriverPanel.setBorder(titledBorderDriver);
 		this.mContainer.add(this.mDriverPanel);
 		this.mDriverPanel.setLayout(null);
 
 		this.mBinaryPanel = new JPanel();
 		this.mBinaryPanel.setBounds(10, 230, FRAME_WIDTH - 25, 70);
-		TitledBorder titledBorderBinary = BorderFactory.createTitledBorder(BINARY_TITLE);
+		final TitledBorder titledBorderBinary = BorderFactory.createTitledBorder(BINARY_TITLE);
 		this.mBinaryPanel.setBorder(titledBorderBinary);
 		this.mContainer.add(this.mBinaryPanel);
 		this.mBinaryPanel.setLayout(null);

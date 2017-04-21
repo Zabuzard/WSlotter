@@ -108,7 +108,7 @@ public final class MainFrameController {
 			this.mCurrentRoutine.interrupt();
 			try {
 				this.mCurrentRoutine.join(INTERRUPT_WAIT);
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
 		}

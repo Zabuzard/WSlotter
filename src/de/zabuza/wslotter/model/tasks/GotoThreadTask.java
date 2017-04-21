@@ -19,7 +19,7 @@ public class GotoThreadTask implements ITask {
 	/**
 	 * The web driver to use.
 	 */
-	private WebDriver mDriver;
+	private final WebDriver mDriver;
 	/**
 	 * Whether interrupted flag of the task is set.
 	 */
@@ -81,7 +81,7 @@ public class GotoThreadTask implements ITask {
 		this.mDriver.get(this.mThreadUrl);
 		try {
 			new TitleContainsWait(this.mDriver, Patterns.SITE_TITLE).waitUntilCondition();
-		} catch (TimeoutException e) {
+		} catch (final TimeoutException e) {
 			this.mLogger.logError("The site is no 'Gruppe W' thread.", Logger.FIRST_LEVEL);
 			throw new AbortTaskException();
 		}
